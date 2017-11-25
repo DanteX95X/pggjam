@@ -38,14 +38,15 @@ namespace Model
 		
 		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
 		{
-			Result result;// = new Result();
+			Result result = new Result();// = new Result();
 			if(needToExit)
 			{
-				return new Result();
+				return result;
 			}
 		
 			if(depth == 0 || state.WhoWon() != -1)
 			{
+				result = new Result();
 				result.value = state.Payoff();
 				result.action = lastAction;
 				return result;
@@ -54,7 +55,7 @@ namespace Model
 			if(Time.time - timeStart > timeLimit)
 			{
 				needToExit = true;
-				return new Result();
+				return result;
 			}
 
 			int value;
@@ -82,6 +83,7 @@ namespace Model
 					if( beta <= alpha)
 						break;
 				}
+				result = new Result();
 				result.value = value;
 				result.action = bestAction;
 				return result;
@@ -108,6 +110,7 @@ namespace Model
 					if(beta <= alpha)
 						break;
 				}
+				result = new Result();
 				result.value = value;
 				result.action = bestAction;
 				return result;
