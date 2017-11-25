@@ -60,7 +60,7 @@ namespace Model
 		public List<Action> GenerateActions()
 		{
 			List<Action> actions = new List<Action>();
-			if (SelectedPosition != Game.noInput)
+			if (SelectedPosition == Game.noInput)
 			{
 				foreach (Vector2 position in vessels[currentPlayer])
 				{
