@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Model
 {
-	struct Result
+	class Result
 	{
 		public int value;
 		public Action action;
@@ -27,7 +27,7 @@ namespace Model
 				if(!needToExit)
 					bestAction = current;
 				++depth;
-				System.GC.Collect();
+				//System.GC.Collect();
 				yield return null;
 			}
 			while(Time.time - timeStart < timeLimit);
@@ -38,14 +38,15 @@ namespace Model
 		
 		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
 		{
-			Result result;// = new Result();
+			Result result = null;// = new Result();
 			if(needToExit)
 			{
-				return new Result();
+				return result;
 			}
 		
 			if(depth == 0 || state.WhoWon() != -1)
 			{
+				result = new Result();
 				result.value = state.Payoff();
 				result.action = lastAction;
 				return result;
@@ -54,7 +55,7 @@ namespace Model
 			if(Time.time - timeStart > timeLimit)
 			{
 				needToExit = true;
-				return new Result();
+				return null;
 			}
 
 			int value;
@@ -70,7 +71,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, false, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return nextLevelResult;
+						return null;
 					}
 
 					if(nextLevelResult.value > value)
@@ -82,6 +83,7 @@ namespace Model
 					if( beta <= alpha)
 						break;
 				}
+				result = new Result();
 				result.value = value;
 				result.action = bestAction;
 				return result;
@@ -96,7 +98,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, true, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return nextLevelResult;
+						return null;
 					}
 					if(nextLevelResult.value < value)
 					{
@@ -108,6 +110,7 @@ namespace Model
 					if(beta <= alpha)
 						break;
 				}
+				result = new Result();
 				result.value = value;
 				result.action = bestAction;
 				return result;
