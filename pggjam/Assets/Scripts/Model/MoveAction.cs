@@ -39,8 +39,18 @@ namespace Model
 
 			for(int i = 0; i < indexes.Count; ++i)
 			{
+				Debug.Log("" + indexes.Count + " " + positions.Count + " " + players.Count + " " + playersIndexes.Count);
+				Debug.Log("" + players[0] + " " + players[1]);
 				state.Vessels[state.CurrentPlayer].Insert(indexes[i], positions[i]);
+				for(int j = 0; j < indexes.Count; ++j)
+				{
+					++indexes[j];
+				}
 				state.Vessels[players[i]].RemoveAt(playersIndexes[i]);
+				for(int j = 0; j < playersIndexes.Count; ++j)
+				{
+					--playersIndexes[j];
+				}
 			}
 			state.Print();
 		}
@@ -90,13 +100,17 @@ namespace Model
 						continue;
 					for (int j = 0; j < ships[i].Count; ++j)
 					{
-						if( Utilities.isPointInTriangle(ships[currentPlayer][index - 1], source, destination, ships[i][j]))
+						if (Utilities.isPointInTriangle(ships[currentPlayer][index - 1], source, destination, ships[i][j]))
 						{
-							Debug.Log("Taken over");
-							indexes.Add(index);
-							positions.Add(ships[i][j]);
-							players.Add(i);
-							playersIndexes.Add(j);
+							Debug.Log(ships[i][j]);
+							if (!positions.Contains(ships[i][j]))
+							{
+								Debug.Log("Taken over");
+								indexes.Add(index);
+								positions.Add(ships[i][j]);
+								players.Add(i);
+								playersIndexes.Add(j);
+							}
 						}
 					}
 				}
@@ -109,13 +123,17 @@ namespace Model
 						continue;
 					for (int j = 0; j < ships[i].Count; ++j)
 					{
-						if( Utilities.isPointInTriangle(source, ships[currentPlayer][index + 1], destination, ships[i][j]))
+						if (Utilities.isPointInTriangle(source, ships[currentPlayer][index + 1], destination, ships[i][j]))
 						{
-							Debug.Log("Taken over");
-							indexes.Add(index + 1);
-							positions.Add(ships[i][j]);
-							players.Add(i);
-							playersIndexes.Add(j);
+							Debug.Log(ships[i][j]);
+							if (!positions.Contains(ships[i][j]))
+							{
+								Debug.Log("Taken over");
+								indexes.Add(index + 1);
+								positions.Add(ships[i][j]);
+								players.Add(i);
+								playersIndexes.Add(j);
+							}
 						}
 					}
 				}
