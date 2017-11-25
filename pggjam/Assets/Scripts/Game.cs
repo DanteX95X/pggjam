@@ -66,15 +66,9 @@ public class Game : MonoBehaviour
 			ships.Add(child.gameObject.GetComponent<Vessel>());
 		}
 
-		//state = CreateState();
-		//Model.Action action0 = new Model.MoveAction(new Vector2(0,3), new Vector2(3,-3));
-		//action0.ApplyAction(state);
-		//state.Print();
-		//Debug.Log("Winner: " + state.WhoWon());
-
 		state = CreateState();
 
-		Debug.Log(Model.Utilities.isPointInTriangle(new Vector2(0,1), new Vector2(-1,-1), new Vector2(1, -1), new Vector2(1,0)));
+		state.Print();
 	}
 
 	Model.GameState CreateState()
@@ -164,11 +158,8 @@ public class Game : MonoBehaviour
 		Model.Action action = null;
 		if (lastInput != noInput)
 		{
-			Debug.Log("input");
 			if (currentShip == -1)
 			{
-				Debug.Log("Tyring ");
-				//AquireShip(lastInput);
 				action = new Model.SelectShipAction(lastInput);
 			} 
 			else
