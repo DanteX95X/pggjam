@@ -36,8 +36,9 @@ public class Game : MonoBehaviour
 		currentPlayer = 0;
 
 		Model.GameState state = CreateState();
+		Model.GameState clone = state.Clone();
 		state.Print();
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 0; ++i)
 		{
 			Model.Action action = state.GenerateActions()[0];
 			action.ApplyAction(state);
@@ -45,13 +46,20 @@ public class Game : MonoBehaviour
 			state.Print();
 		}
 
+		Model.Action action0 = new Model.MoveAction(new Vector2(-3,-3), new Vector2(3,-3));
+		action0.ApplyAction(state);
+		state.Print();
+		Debug.Log("Winner: " + state.WhoWon());
+
+		clone.Print();
+
 		Debug.Log(Model.Utilities.isPointInTriangle(new Vector2(0,1), new Vector2(-1,-1), new Vector2(1, -1), new Vector2(1,0)));
 	}
 
 	Model.GameState CreateState()
 	{
-		List<Vector2> playerVessels = new List<Vector2>();
-		List<Vector2> opponentVessels = new List<Vector2>();
+		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>()};
+		//List<Vector2> opponentVessels = new List<Vector2>();
 
 		Dictionary<Vector2, List<Vector2>> map = new Dictionary<Vector2, List<Vector2>>();
 		foreach(Node node in nodes)
@@ -66,10 +74,10 @@ public class Game : MonoBehaviour
 
 		foreach(Vessel vessel in ships)
 		{
-			playerVessels.Add(vessel.transform.position);
+			vesselsPositions[vessel.Owner].Add(vessel.transform.position);
 		}
 
-		return new Model.GameState(playerVessels, opponentVessels, currentPlayer, map);
+		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], currentPlayer, map);
 	}
 
 	void Update() 

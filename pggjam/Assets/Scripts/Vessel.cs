@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vessel : MonoBehaviour {
+public class Vessel : MonoBehaviour 
+{
+	[SerializeField]
+	int owner = -1;
 
-	// Use this for initialization
-	void Start () {
+	public int Owner
+	{
+		get { return owner; }
+	}
+
+	void Start () 
+	{
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void Update () 
+	{
 		
 	}
 }
