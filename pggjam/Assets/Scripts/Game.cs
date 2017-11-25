@@ -166,6 +166,7 @@ public class Game : MonoBehaviour
             yield return null;
         }
         isInCouroutine = false;
+        ships[currentShip].transform.position = destpos;
         ShipMovementEnd();
     }
 

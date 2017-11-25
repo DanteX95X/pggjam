@@ -27,8 +27,8 @@ namespace Model
 				if(!needToExit)
 					bestAction = current;
 				++depth;
-				//System.GC.Collect();
 				yield return null;
+				System.GC.Collect();
 			}
 			while(Time.time - timeStart < timeLimit);
 			//bestAction.Print();
