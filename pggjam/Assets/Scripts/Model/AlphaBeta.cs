@@ -23,22 +23,25 @@ namespace Model
 			Action bestAction = null;
 			do
 			{
-				bestAction = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 1, null, timeLimit, timeStart).action;
+				Model.Action current = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 1, null, timeLimit, timeStart).action;
+				if(!needToExit)
+					bestAction = current;
 				++depth;
+				System.GC.Collect();
 				yield return null;
 			}
 			while(Time.time - timeStart < timeLimit);
-			bestAction.Print();
+			//bestAction.Print();
 			ufo = bestAction;
 			needToExit = false;
 		}
 		
 		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
 		{
-			Result result = new Result();
+			Result result;// = new Result();
 			if(needToExit)
 			{
-				return result;
+				return new Result();
 			}
 		
 			if(depth == 0 || state.WhoWon() != -1)
@@ -51,7 +54,7 @@ namespace Model
 			if(Time.time - timeStart > timeLimit)
 			{
 				needToExit = true;
-				return result;
+				return new Result();
 			}
 
 			int value;
@@ -67,7 +70,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, false, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return result;
+						return nextLevelResult;
 					}
 
 					if(nextLevelResult.value > value)
@@ -93,7 +96,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, true, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return result;
+						return nextLevelResult;
 					}
 					if(nextLevelResult.value < value)
 					{

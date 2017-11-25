@@ -80,7 +80,7 @@ public class Game : MonoBehaviour
 				nodes.Add(instance.GetComponent<Node>());
 			}
 
-			Debug.Log(" nodes : " + nodes.Count);
+			//Debug.Log(" nodes : " + nodes.Count);
 			line = reader.ReadLine();
 			line = reader.ReadLine();
 			count = Int32.Parse(line);
@@ -172,7 +172,7 @@ public class Game : MonoBehaviour
     void ShipMovementEnd()
     {
     	currentShip = noInput;
-        Debug.Log("ShipMovementEnd");
+        //Debug.Log("ShipMovementEnd");
     }
 
     public void SetupShipLines()
@@ -191,7 +191,7 @@ public class Game : MonoBehaviour
     public void AquireShip(Vector2 position)
 	{
 		currentShip = position;
-		Debug.Log("Ship aquired");
+		//Debug.Log("Ship aquired");
 		return;
     }
 
@@ -213,7 +213,7 @@ public class Game : MonoBehaviour
 				{
 					action.ApplyAction(state);
 					action.ApplyAction(this);
-					action.Print();
+					//action.Print();
 					Model.AlphaBeta.ufo = null;
 				}
 			} 
