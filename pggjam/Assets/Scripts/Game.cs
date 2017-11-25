@@ -48,8 +48,9 @@ public class Game : MonoBehaviour
 			action.ApplyAction(this);
 			state.Print();
 		}
+	
 
-		Model.Action action0 = new Model.MoveAction(new Vector2(-3,-3), new Vector2(3,-3));
+		Model.Action action0 = new Model.MoveAction(new Vector2(0,3), new Vector2(3,-3));
 		action0.ApplyAction(state);
 		state.Print();
 		Debug.Log("Winner: " + state.WhoWon());

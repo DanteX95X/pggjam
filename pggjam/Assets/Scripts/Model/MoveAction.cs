@@ -49,23 +49,51 @@ namespace Model
 
 		int CheckWinConditions(List<Vector2> playerShips, List<Vector2> opponentShips, int index, int currentPlayer)
 		{
+			int winner = -1;
 			bool result = false;
 			for(int i = 0; i < opponentShips.Count; ++i)
 			{
 				if(index > 0)
 				{
 					result = Utilities.isPointInTriangle(playerShips[index-1], source, destination, opponentShips[i]);
-					if(result)
-						return currentPlayer;
+					Debug.Log("angle: " + Utilities.angleBetweenVectors(new Vector2(0,1), new Vector2(0,-1) ));
+					Debug.Log("angle: " + Utilities.angleBetweenVectors(source - playerShips[index-1], destination - playerShips[index-1]));
+					float angle = Utilities.angleBetweenVectors(source - playerShips[index-1], destination - playerShips[index-1]);
+					if(result && angle < CheckLossConditions(source, i, opponentShips))
+					{
+						winner = currentPlayer;
+						break;
+					}
+					
 				}
 				if(index < playerShips.Count -1)
 				{
 					result = Utilities.isPointInTriangle(source, playerShips[index+1], destination, opponentShips[i]);
-					if(result)
-						return currentPlayer;
+					Debug.Log("angle: " + (Utilities.angleBetweenVectors(source - playerShips[index+1], destination - playerShips[index+1] )));
+					float angle = Utilities.angleBetweenVectors(source - playerShips[index+1], destination - playerShips[index+1] );
+					if(result && angle < CheckLossConditions(source, i, opponentShips))
+					{
+						winner = currentPlayer;
+						break;
+					}
 				}
 			}
-			return -1;
+			return winner;
+		}
+
+		float CheckLossConditions(Vector2 source, int opponentShipIndex, List<Vector2> opponentShips)
+		{
+			if(opponentShipIndex > 0)
+			{
+				//Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex-1] - opponentShips[opponentShipIndex] ));
+				return Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex-1] - opponentShips[opponentShipIndex] );
+			}
+			if(opponentShipIndex < opponentShips.Count - 1)
+			{
+				//Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] ));
+				return Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] );
+			}
+			return 360;
 		}
 	}
 }
