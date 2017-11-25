@@ -89,14 +89,14 @@ public class Game : MonoBehaviour
         //Check if can move to that node
 
 
-        StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, 0)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, 0)));
+			StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
         //ships[currentShip].transform.position = new Vector3(pos.x, pos.y, 0);
     }
 
 
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
-        while (ships[currentShip].transform.position != destpos)
+        while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
             float fracJourney = distCovered / journeyLength;
