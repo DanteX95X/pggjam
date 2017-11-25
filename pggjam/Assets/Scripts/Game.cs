@@ -30,6 +30,8 @@ public class Game : MonoBehaviour
 
 	Model.GameState state;
 
+	bool isInCouroutine = false;
+
 	public Model.GameState State
 	{
 		get { return state;}
@@ -155,6 +157,7 @@ public class Game : MonoBehaviour
 
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
+    	isInCouroutine = true;
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -162,6 +165,7 @@ public class Game : MonoBehaviour
             ships[currentShip].transform.position = Vector3.Lerp(startPos, destpos, fracJourney);
             yield return null;
         }
+        isInCouroutine = false;
         ShipMovementEnd();
     }
 
@@ -193,9 +197,9 @@ public class Game : MonoBehaviour
 
 	void Update() 
 	{
-		if(state.WhoWon() == -1)
+		if(!isInCouroutine && state.WhoWon() == -1)
 		{
-			Model.Action  action = ProcessInput();
+			Model.Action  action = state.GenerateActions()[0];//ProcessInput();
 			if(action != null && action.IsLegal(state))
 			{
 				action.ApplyAction(state);
@@ -205,6 +209,7 @@ public class Game : MonoBehaviour
 		else
 		{
 			Debug.Log("Game Over " + state.WhoWon());
+			//Time.timeScale = 0;
 		}
 		SetupShipLines();
 	}
