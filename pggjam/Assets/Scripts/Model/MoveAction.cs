@@ -83,6 +83,7 @@ namespace Model
 					//vessel.transform.position = new Vector3(destination.x, destination.y, vessel.transform.position.z);
 				}
 			}
+            game.SetupShipLines();
 		}
 
 		public override bool IsLegal(GameState state)
