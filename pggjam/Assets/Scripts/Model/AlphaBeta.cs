@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Model
 {
-	class Result
+	struct Result
 	{
 		public int value;
 		public Action action;
@@ -27,8 +27,8 @@ namespace Model
 				if(!needToExit)
 					bestAction = current;
 				++depth;
-				yield return null;
 				System.GC.Collect();
+				yield return null;
 			}
 			while(Time.time - timeStart < timeLimit);
 			//bestAction.Print();
@@ -38,7 +38,7 @@ namespace Model
 		
 		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
 		{
-			Result result = null;// = new Result();
+			Result result = new Result();// = new Result();
 			if(needToExit)
 			{
 				return result;
@@ -55,7 +55,7 @@ namespace Model
 			if(Time.time - timeStart > timeLimit)
 			{
 				needToExit = true;
-				return null;
+				return result;
 			}
 
 			int value;
@@ -71,7 +71,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, false, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return null;
+						return nextLevelResult;
 					}
 
 					if(nextLevelResult.value > value)
@@ -98,7 +98,7 @@ namespace Model
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, true, action, timeLimit, timeStart);
 					if(needToExit)
 					{
-						return null;
+						return nextLevelResult;
 					}
 					if(nextLevelResult.value < value)
 					{

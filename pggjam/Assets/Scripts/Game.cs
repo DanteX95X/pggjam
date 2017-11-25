@@ -204,11 +204,17 @@ public class Game : MonoBehaviour
 			{
 				Model.Action action = null;
 				if(CurrentPlayer == 0)
+				{
+				//	List<Model.Action> actions = state.GenerateActions();
+				//	action = actions[UnityEngine.Random.Range(0, actions.Count)];
 					action = ProcessInput();
+				}
 				else if(CurrentPlayer == 1)
 				{
-					StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
-					action = Model.AlphaBeta.ufo;
+					List<Model.Action> actions = state.GenerateActions();
+					action = actions[UnityEngine.Random.Range(0, actions.Count)];
+					//StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
+					//action = Model.AlphaBeta.ufo;
 				}
 				if (action != null && action.IsLegal(state))
 				{

@@ -26,7 +26,7 @@ namespace Model
 			results.Add(Signum(DistanceFromLine(p1, p2, point)));
 			results.Add(Signum(DistanceFromLine(p2, p0, point)));
 
-			return results[0] == results[1] && results[0] == results[2];
+				return (results[0] == results[1] && results[0] == results[2]);
 		}
 
 		public static float angleBetweenVectors(Vector2 first, Vector2 second)
