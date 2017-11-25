@@ -135,7 +135,7 @@ public class Game : MonoBehaviour
         SetupShipLines();
 
         controllers[0] = ControllerType.HUMAN;
-        controllers[1] = ControllerType.AI;
+        controllers[1] = ControllerType.RANDOM;
 	}
 
 	Model.GameState CreateState()
