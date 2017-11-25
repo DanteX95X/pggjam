@@ -9,6 +9,8 @@ public class Node : MonoBehaviour
 
     Game gameManager = null;
 
+    public GameObject linePrefab = null;
+
 	public List<Node> Neighbours 
 	{
 		get { return neighbours; }
@@ -24,6 +26,18 @@ public class Node : MonoBehaviour
 	{
 		if(neighbours.Count == 0)
 			Debug.LogError("No neighbours in object " + gameObject.name);
+
+        foreach (Node neighbour in Neighbours)
+        {
+            if (linePrefab != null)
+            {
+                GameObject go = Instantiate(linePrefab, transform);
+                LineRenderer line = go.GetComponent<LineRenderer>();
+                line.positionCount = 2;
+                line.SetPosition(0, transform.position);
+                line.SetPosition(1, neighbour.transform.position);
+            }
+        }
 	}
 
     private void OnMouseDown()
