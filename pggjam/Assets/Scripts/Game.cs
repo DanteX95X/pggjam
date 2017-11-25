@@ -69,6 +69,8 @@ public class Game : MonoBehaviour
 		state = CreateState();
 
 		state.Print();
+
+        SetupShipLines();
 	}
 
 	Model.GameState CreateState()
@@ -118,6 +120,41 @@ public class Game : MonoBehaviour
     {
     	currentShip = -1;
         Debug.Log("ShipMovementEnd");
+    }
+
+    public void SetupShipLines()
+    {
+        int numberTeams = 2;
+        for (int i = 0; i < numberTeams; i++)
+        {
+            Debug.Log("Next team!");
+            for (int j = 0 ; j < state.Vessels[i].Count - 1; j++ )
+            {
+                Debug.Log("Current Ship : " + j);
+
+                Vessel current = null;
+                foreach (Vessel ves in ships)
+                {
+                    if (ves.transform.position.x == state.Vessels[i][j].x && ves.transform.position.y == state.Vessels[i][j].y)
+                    {
+                        current = ves;
+                        break;
+                    }
+                }
+                Vessel next = null;
+                foreach (Vessel ves in ships)
+                {
+                    if (current != ves && ves.transform.position.x == state.Vessels[i][j+1].x && ves.transform.position.y == state.Vessels[i][j+1].y)
+                    {
+                        next = ves;
+                        break;
+                    }
+                }
+                Debug.Log("Current : " + (current != null).ToString() + ", Next : " + (next != null).ToString());
+                if (current != null && next != null)
+                    current.otherShip = next.gameObject;
+            }   
+        }
     }
 
     public void AquireShip(Vector2 position)
