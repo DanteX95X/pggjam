@@ -7,6 +7,11 @@ public class Node : MonoBehaviour
 	[SerializeField]
 	List<Node> neighbours = null;
 
+	public List<Node> Neighbours 
+	{
+		get { return neighbours; }
+	}
+
 	void Start () 
 	{
 		if(neighbours.Count == 0)
