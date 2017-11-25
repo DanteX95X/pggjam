@@ -123,16 +123,6 @@ public class Game : MonoBehaviour
 		ParseGraph("ufo");
 		lastInput = noInput;
 
-		/*foreach (Transform child in grid)
-		{
-			nodes.Add(child.gameObject.GetComponent<Node>());
-		}*/
-
-		/*foreach (Transform child in vessels)
-		{
-			ships.Add(child.gameObject.GetComponent<Vessel>());
-		}*/
-
 		state = CreateState();
 
 		state.Print();
@@ -143,7 +133,6 @@ public class Game : MonoBehaviour
 	Model.GameState CreateState()
 	{
 		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>()};
-		//List<Vector2> opponentVessels = new List<Vector2>();
 
 		Dictionary<Vector2, List<Vector2>> map = new Dictionary<Vector2, List<Vector2>>();
 		foreach(Node node in nodes)
@@ -199,27 +188,15 @@ public class Game : MonoBehaviour
         	if(i == 1)
         		Debug.Log(state.Vessels[i][j] + " " + ships[state.Vessels[i][j]].transform.position);
         		lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
-        		/*if(currentShip != noInput && state.Vessels[i][j] == (Vector2)ships[currentShip].transform.position)
-        		{
-        			lines[i].SetPosition(j, ships[currentShip].transform.position);
-        		}
-        		else
-        			lines[i].SetPosition(j, state.Vessels[i][j]);*/
         	}
         }
     }
 
     public void AquireShip(Vector2 position)
 	{
-		//for (int i = 0; i < ships.Count; ++i)
-		{
-			//if ((Vector2)ships[i].transform.position == position)// && ships[i].Owner == CurrentPlayer)
-			{
-				currentShip = position;
-				Debug.Log("Ship aquired");
-				return;
-			}
-    	}
+		currentShip = position;
+		Debug.Log("Ship aquired");
+		return;
     }
 
 	void Update() 
@@ -235,7 +212,7 @@ public class Game : MonoBehaviour
 		}
 		else
 		{
-			//Debug.Log("Game Over " + state.WhoWon());
+			Debug.Log("Game Over " + state.WhoWon());
 		}
 		SetupShipLines();
 	}
