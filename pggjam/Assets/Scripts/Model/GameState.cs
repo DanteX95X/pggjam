@@ -108,5 +108,10 @@ namespace Model
 			}
 			Debug.Log(serializedState);
 		}
+
+		public void NextTurn()
+		{
+			currentPlayer = (currentPlayer + 1)%2;
+		}
 	}
 }

@@ -14,10 +14,13 @@ namespace Model
 		List<int> players = new List<int>();
 		List<int> playersIndexes = new List<int>();
 
+		int playerID;
+
 		public MoveAction(Vector2 destination)
 			: base(ActionType.MOVE)
 		{
 			this.destination = destination;
+			playerID = -1;
 		}
 
 		public override void ApplyAction(GameState state)
@@ -52,6 +55,9 @@ namespace Model
 					--playersIndexes[j];
 				}
 			}
+
+			playerID = state.CurrentPlayer;
+			state.NextTurn();
 			state.Print();
 		}
 
@@ -69,7 +75,7 @@ namespace Model
 						{
 							if((Vector2)game.Ships[j].transform.position == positions[i])
 							{
-								game.Ships[j].Owner = game.CurrentPlayer;
+								game.Ships[j].Owner = playerID;
 							}
 						}
 					}
