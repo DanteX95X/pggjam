@@ -32,9 +32,18 @@ namespace Model
 			return new GameState(vessels[0], vessels[1], currentPlayer, nodes);
 		}
 
-		void GenerateActions()
+		public List<Action> GenerateActions()
 		{
-			//TODO
+			List<Action> actions = new List<Action>();
+			foreach(Vector2 position in vessels[currentPlayer])
+			{
+				foreach(Vector2 neighbour in nodes[position])
+				{
+					actions.Add(new Model.MoveAction(position, neighbour));
+				}
+			}
+
+			return actions;
 		}
 
 		int WhoWon()
@@ -43,7 +52,7 @@ namespace Model
 			return -1;
 		}
 
-		public void Serialize()
+		public void Print()
 		{
 			string serializedState = "";
 			serializedState += currentPlayer + "\n";

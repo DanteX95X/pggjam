@@ -18,7 +18,8 @@ namespace Model
 			this.type = type;
 		}
 
-		public abstract void ApplyMove(GameState state);
+		public abstract void ApplyAction(GameState state);
+		public abstract void ApplyAction(Game game);
 		public abstract void Print();
 	}
 }

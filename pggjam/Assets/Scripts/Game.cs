@@ -16,22 +16,34 @@ public class Game : MonoBehaviour
 	List<Node> nodes = new List<Node>();
 	List<Vessel> ships = new List<Vessel>();
 
-
-	void Start() 
+	public List<Vessel> Ships
 	{
-		foreach(Transform child in grid)
+		get { return ships; }
+	}
+
+	void Start()
+	{
+		foreach (Transform child in grid)
 		{
 			nodes.Add(child.gameObject.GetComponent<Node>());
 		}
 
-		foreach(Transform child in vessels)
+		foreach (Transform child in vessels)
 		{
 			ships.Add(child.gameObject.GetComponent<Vessel>());
 		}
 
 		currentPlayer = 0;
 
-		CreateState().Serialize();
+		Model.GameState state = CreateState();
+		state.Print();
+		for (int i = 0; i < 5; ++i)
+		{
+			Model.Action action = state.GenerateActions()[0];
+			action.ApplyAction(state);
+			action.ApplyAction(this);
+			state.Print();
+		}
 	}
 
 	Model.GameState CreateState()
@@ -47,6 +59,7 @@ public class Game : MonoBehaviour
 			{
 				neighbours.Add(neighbour.transform.position);
 			}
+			map[node.transform.position] = neighbours;
 		}
 
 		foreach(Vessel vessel in ships)
