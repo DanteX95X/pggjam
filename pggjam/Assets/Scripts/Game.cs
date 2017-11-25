@@ -195,22 +195,35 @@ public class Game : MonoBehaviour
 		return;
     }
 
-	void Update() 
+	void Update()
 	{
-		if(!isInCouroutine && state.WhoWon() == -1)
+		if (!isInCouroutine)
 		{
-			Model.Action  action = state.GenerateActions()[0];//ProcessInput();
-			if(action != null && action.IsLegal(state))
+			if (state.WhoWon() == -1)
 			{
-				action.ApplyAction(state);
-				action.ApplyAction(this);
+				Model.Action action = null;
+				if(CurrentPlayer == 0)
+					action = ProcessInput();
+				else if(CurrentPlayer == 1)
+				{
+					StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
+					action = Model.AlphaBeta.ufo;
+				}
+				if (action != null && action.IsLegal(state))
+				{
+					action.ApplyAction(state);
+					action.ApplyAction(this);
+					action.Print();
+					Model.AlphaBeta.ufo = null;
+				}
+			} 
+			else
+			{
+				Debug.Log("Game Over " + state.WhoWon());
+				//Time.timeScale = 0;
 			}
 		}
-		else
-		{
-			Debug.Log("Game Over " + state.WhoWon());
-			//Time.timeScale = 0;
-		}
+
 		SetupShipLines();
 	}
 

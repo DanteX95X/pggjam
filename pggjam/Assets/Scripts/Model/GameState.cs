@@ -121,6 +121,7 @@ namespace Model
 
 		public void NextTurn()
 		{
+			//Debug.Log("next turn");
 			currentPlayer = (currentPlayer + 1)%2;
 		}
 	}

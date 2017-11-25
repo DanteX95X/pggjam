@@ -55,7 +55,6 @@ namespace Model
 
 			playerID = state.CurrentPlayer;
 			state.NextTurn();
-			state.Print();
 		}
 
 		public override void ApplyAction(Game game)

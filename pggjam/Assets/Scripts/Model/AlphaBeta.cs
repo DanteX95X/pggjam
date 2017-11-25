@@ -13,8 +13,9 @@ namespace Model
 	public static class AlphaBeta
 	{
 		static bool needToExit = false;
+		public static Model.Action ufo = null;
 
-		public static Action StartPruning(GameState state, float timeLimit)
+		public static IEnumerator StartPruning(GameState state, float timeLimit)
 		{
 			needToExit = false;
 			int depth = 1;
@@ -22,14 +23,14 @@ namespace Model
 			Action bestAction = null;
 			do
 			{
-				//maybe clone state if it wont work
-				bestAction = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 0, null, timeLimit, timeStart).action;
+				bestAction = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 1, null, timeLimit, timeStart).action;
 				++depth;
+				yield return null;
 			}
 			while(Time.time - timeStart < timeLimit);
-
-			return bestAction;
-				
+			bestAction.Print();
+			ufo = bestAction;
+			needToExit = false;
 		}
 		
 		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
@@ -64,6 +65,11 @@ namespace Model
 					GameState child = state.Clone();
 					action.ApplyAction(child);
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, false, action, timeLimit, timeStart);
+					if(needToExit)
+					{
+						return result;
+					}
+
 					if(nextLevelResult.value > value)
 					{
 						value = nextLevelResult.value;
@@ -85,6 +91,10 @@ namespace Model
 					GameState child = state.Clone();
 					action.ApplyAction(child);
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, true, action, timeLimit, timeStart);
+					if(needToExit)
+					{
+						return result;
+					}
 					if(nextLevelResult.value < value)
 					{
 						value = nextLevelResult.value;
