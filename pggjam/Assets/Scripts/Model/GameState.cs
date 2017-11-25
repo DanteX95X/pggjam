@@ -88,6 +88,11 @@ namespace Model
 			return winner;
 		}
 
+		public int Payoff()
+		{
+			return vessels[0].Count - vessels[1].Count;
+		}
+
 		public void Print()
 		{
 			string serializedState = "";
