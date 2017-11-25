@@ -25,6 +25,7 @@ public class Vessel : MonoBehaviour
 	public int Owner
 	{
 		get { return owner; }
+		set { owner = value; }
 	}
 
 	void Start () 
@@ -39,14 +40,8 @@ public class Vessel : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		/*if (gameManager != null && gameManager.CurrentShip == -1)
-		{
-			Debug.Log("ship aquired");
-			gameManager.AquireShip(transform.position);
-        }*/
 		if (gameManager != null)
 		{
-			Debug.Log("ok");
 			gameManager.Input = transform.position;
 		}
     }

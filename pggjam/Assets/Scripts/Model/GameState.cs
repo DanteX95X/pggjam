@@ -84,6 +84,7 @@ namespace Model
 
 		public void Print()
 		{
+		Debug.Log("ufo");
 			string serializedState = "";
 			serializedState += currentPlayer + "\n";
 			for(int i = 0; i < vessels.Length; ++i)

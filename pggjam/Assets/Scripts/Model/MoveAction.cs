@@ -9,6 +9,11 @@ namespace Model
 		Vector2 source;
 		Vector2 destination;
 
+		List<int> indexes = new List<int>();
+		List<Vector2> positions = new List<Vector2>();
+		List<int> players = new List<int>();
+		List<int> playersIndexes = new List<int>();
+
 		public MoveAction(Vector2 destination)
 			: base(ActionType.MOVE)
 		{
@@ -23,13 +28,21 @@ namespace Model
 				Vector2 currentPosition = state.Vessels[state.CurrentPlayer][i];
 				if(currentPosition == state.SelectedPosition)
 				{
-					state.Winner = CheckWinConditions(state.Vessels[state.CurrentPlayer], state.Vessels[(state.CurrentPlayer+1)%2], i, state.CurrentPlayer);
+					//state.Winner = CheckWinConditions(state.Vessels[state.CurrentPlayer], state.Vessels[(state.CurrentPlayer+1)%2], i, state.CurrentPlayer);
+					TakeShipOver(i, state.CurrentPlayer, state.Vessels);
 
 					state.Vessels[state.CurrentPlayer][i] = destination;
 					state.SelectedPosition = Game.noInput;
-					return;
+					break;
 				}
 			}
+
+			for(int i = 0; i < indexes.Count; ++i)
+			{
+				state.Vessels[state.CurrentPlayer].Insert(indexes[i], positions[i]);
+				state.Vessels[players[i]].RemoveAt(playersIndexes[i]);
+			}
+			state.Print();
 		}
 
 		public override void ApplyAction(Game game)
@@ -39,6 +52,18 @@ namespace Model
 				if((Vector2)vessel.transform.position == source /*game.State.SelectedPosition*/)
 				{
 					game.moveShip(destination);
+
+					for(int i = 0; i < positions.Count; ++i)
+					{
+						for(int j = 0; j < game.Ships.Count; ++j)
+						{
+							if((Vector2)game.Ships[j].transform.position == positions[i])
+							{
+								game.Ships[j].Owner = game.CurrentPlayer;
+							}
+						}
+					}
+					break;
 					//vessel.transform.position = new Vector3(destination.x, destination.y, vessel.transform.position.z);
 				}
 			}
@@ -52,6 +77,49 @@ namespace Model
 		public override void Print()
 		{
 			Debug.Log("Move to " + destination);
+		}
+
+		void TakeShipOver(int index, int currentPlayer, List<Vector2>[] ships)
+		{
+
+			if (index > 0)
+			{
+				for (int i = 0; i < ships.Length; ++i)
+				{
+					if (i == currentPlayer)
+						continue;
+					for (int j = 0; j < ships[i].Count; ++j)
+					{
+						if( Utilities.isPointInTriangle(ships[currentPlayer][index - 1], source, destination, ships[i][j]))
+						{
+							Debug.Log("Taken over");
+							indexes.Add(index);
+							positions.Add(ships[i][j]);
+							players.Add(i);
+							playersIndexes.Add(j);
+						}
+					}
+				}
+			}
+			if (index < ships[currentPlayer].Count - 1)
+			{
+				for (int i = 0; i < ships.Length; ++i)
+				{
+					if (i == currentPlayer)
+						continue;
+					for (int j = 0; j < ships[i].Count; ++j)
+					{
+						if( Utilities.isPointInTriangle(source, ships[currentPlayer][index + 1], destination, ships[i][j]))
+						{
+							Debug.Log("Taken over");
+							indexes.Add(index + 1);
+							positions.Add(ships[i][j]);
+							players.Add(i);
+							playersIndexes.Add(j);
+						}
+					}
+				}
+			}
 		}
 
 		int CheckWinConditions(List<Vector2> playerShips, List<Vector2> opponentShips, int index, int currentPlayer)

@@ -74,7 +74,7 @@ public class Game : MonoBehaviour
 
 		state = CreateState();
 
-		Debug.Log(Model.Utilities.isPointInTriangle(new Vector2(0,1), new Vector2(-1,-1), new Vector2(1, -1), new Vector2(1,0)));
+		//Debug.Log(Model.Utilities.isPointInTriangle(new Vector2(0,1), new Vector2(-1,-1), new Vector2(1, -1), new Vector2(1,0)));
 	}
 
 	Model.GameState CreateState()
@@ -161,11 +161,8 @@ public class Game : MonoBehaviour
 		Model.Action action = null;
 		if (lastInput != noInput)
 		{
-			Debug.Log("input");
 			if (currentShip == -1)
 			{
-				Debug.Log("Tyring ");
-				//AquireShip(lastInput);
 				action = new Model.SelectShipAction(lastInput);
 			} 
 			else
