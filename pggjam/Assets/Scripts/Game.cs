@@ -13,7 +13,10 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	int currentPlayer = -1;
 
-	List<Node> nodes = new List<Node>();
+    [SerializeField]
+    int currentShip = 0;
+
+    List<Node> nodes = new List<Node>();
 	List<Vessel> ships = new List<Vessel>();
 
 
@@ -56,6 +59,33 @@ public class Game : MonoBehaviour
 
 		return new Model.GameState(playerVessels, opponentVessels, currentPlayer, map);
 	}
+
+    public void moveShip(Vector2 pos)
+    {
+        //Check if can move to that node
+
+
+        StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, 0)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, 0)));
+        //ships[currentShip].transform.position = new Vector3(pos.x, pos.y, 0);
+    }
+
+
+    IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
+    {
+        while (ships[currentShip].transform.position != destpos)
+        {
+            float distCovered = (Time.time - startTime) * ships[currentShip].speed * Time.deltaTime;
+            float fracJourney = distCovered / journeyLength;
+            ships[currentShip].transform.position = Vector3.Lerp(startPos, destpos, fracJourney);
+            yield return null;
+        }
+        ShipMovementEnd();
+    }
+
+    void ShipMovementEnd()
+    {
+        Debug.Log("ShipMovementEnd");
+    }
 
 	void Update() 
 	{

@@ -452,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherShip: {fileID: 1770148253}
   lineSegments: 10
+  speed: 100
 --- !u!120 &1046406768
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -551,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ccdc065cabe74f299f8e932077c82e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
 --- !u!1 &1121184321
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +564,7 @@ GameObject:
   - component: {fileID: 1121184322}
   m_Layer: 0
   m_Name: game
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -581,6 +583,7 @@ MonoBehaviour:
   grid: {fileID: 1587369983}
   vessels: {fileID: 1262050941}
   currentPlayer: 0
+  currentShip: 0
 --- !u!4 &1121184323
 Transform:
   m_ObjectHideFlags: 0
@@ -981,3 +984,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ccdc065cabe74f299f8e932077c82e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 100

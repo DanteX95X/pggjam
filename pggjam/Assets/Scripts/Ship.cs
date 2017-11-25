@@ -10,6 +10,8 @@ public class Ship : MonoBehaviour {
 
     public int lineSegments = 100;
 
+    public float speed = 100.0f;
+
 	// Use this for initialization
 	void Start () {
         line = GetComponent<LineRenderer>();
