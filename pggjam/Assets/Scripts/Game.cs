@@ -23,12 +23,6 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	List<LineRenderer> lines = null;
 
-	//[SerializeField]
-	//int currentPlayer = -1;
-
-    //[SerializeField]
-    //int currentShip = 0;
-
     List<Node> nodes = new List<Node>();
 	Dictionary<Vector2, Vessel> ships = new Dictionary<Vector2, Vessel>();
 
@@ -185,8 +179,6 @@ public class Game : MonoBehaviour
         	lines[i].positionCount = state.Vessels[i].Count;
         	for(int j = 0; j < state.Vessels[i].Count; ++j)
         	{
-        	if(i == 1)
-        		Debug.Log(state.Vessels[i][j] + " " + ships[state.Vessels[i][j]].transform.position);
         		lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
         	}
         }

@@ -26,7 +26,6 @@ namespace Model
 
 		public override void ApplyAction(Game game)
 		{
-			//game.Input = position;
 			game.AquireShip(position);
 		}
 

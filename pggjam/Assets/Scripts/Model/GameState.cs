@@ -65,10 +65,6 @@ namespace Model
 				foreach (Vector2 position in vessels[currentPlayer])
 				{
 					actions.Add(new Model.SelectShipAction(position));
-					/*foreach (Vector2 neighbour in nodes[position])
-						{
-							actions.Add(new Model.MoveAction(position, neighbour));
-						}*/
 				}
 			}
 			else
@@ -94,7 +90,6 @@ namespace Model
 
 		public void Print()
 		{
-		Debug.Log("ufo");
 			string serializedState = "";
 			serializedState += currentPlayer + "\n";
 			for(int i = 0; i < vessels.Length; ++i)
