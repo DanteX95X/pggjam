@@ -23,8 +23,8 @@ public class Vessel : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>();
 
-        line = GetComponent<LineRenderer>();
-        line.positionCount = lineSegments;
+        //line = GetComponent<LineRenderer>();
+        //line.positionCount = lineSegments;
     }
 
 	public float Speed
@@ -45,7 +45,7 @@ public class Vessel : MonoBehaviour
 
 	void Update () 
 	{
-        if (otherShip != null)
+        /*if (otherShip != null)
         {
             line.positionCount = lineSegments;
             Vector3 deltaVector = otherShip.transform.position - transform.position;
@@ -59,7 +59,7 @@ public class Vessel : MonoBehaviour
         else
         {
             line.positionCount = 0;
-        }
+        }*/
        
     }
 

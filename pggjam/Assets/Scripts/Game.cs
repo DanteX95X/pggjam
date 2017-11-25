@@ -20,6 +20,9 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	GameObject vesselPrefab = null;
 
+	[SerializeField]
+	List<LineRenderer> lines = null;
+
 	//[SerializeField]
 	//int currentPlayer = -1;
 
@@ -27,9 +30,9 @@ public class Game : MonoBehaviour
     //int currentShip = 0;
 
     List<Node> nodes = new List<Node>();
-	List<Vessel> ships = new List<Vessel>();
+	Dictionary<Vector2, Vessel> ships = new Dictionary<Vector2, Vessel>();
 
-	public int currentShip = -1;
+	public Vector2 currentShip = noInput;
 
 	Model.GameState state;
 
@@ -38,12 +41,12 @@ public class Game : MonoBehaviour
 		get { return state;}
 	}
 
-	public List<Vessel> Ships
+	public Dictionary<Vector2, Vessel> Ships
 	{
 		get { return ships; }
 	}
 
-	public int CurrentShip 
+	public Vector2 CurrentShip 
 	{
 		get { return currentShip; }
 		set { currentShip = value; }
@@ -75,7 +78,7 @@ public class Game : MonoBehaviour
 			{
 				line = reader.ReadLine();
 				words = line.Split();
-				Vector3 position = new Vector3(float.Parse(words[0]), float.Parse(words[1]), -1);
+				Vector3 position = new Vector3(float.Parse(words[0]), float.Parse(words[1]), 0);
 				GameObject instance = Instantiate(nodePrefab, position, Quaternion.identity);
 				instance.transform.parent = grid;
 				nodes.Add(instance.GetComponent<Node>());
@@ -108,7 +111,7 @@ public class Game : MonoBehaviour
 				GameObject instance = Instantiate(vesselPrefab, nodes[index].transform.position - new Vector3(0,0,1), Quaternion.identity);
 				instance.transform.parent = vessels;
 				instance.GetComponent<Vessel>().Owner = owner;
-				ships.Add(instance.GetComponent<Vessel>());
+				ships[(Vector2)instance.transform.position] = (instance.GetComponent<Vessel>());
 			}
 			 
 		}
@@ -153,7 +156,7 @@ public class Game : MonoBehaviour
 			map[node.transform.position] = neighbours;
 		}
 
-		foreach(Vessel vessel in ships)
+		foreach(Vessel vessel in ships.Values)
 		{
 			vesselsPositions[vessel.Owner].Add(vessel.transform.position);
 		}
@@ -163,7 +166,6 @@ public class Game : MonoBehaviour
 
     public void moveShip(Vector2 pos)
     {
-
 		StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
     }
 
@@ -182,52 +184,38 @@ public class Game : MonoBehaviour
 
     void ShipMovementEnd()
     {
-    	currentShip = -1;
+    	currentShip = noInput;
         Debug.Log("ShipMovementEnd");
     }
 
     public void SetupShipLines()
     {
         int numberTeams = 2;
-        for (int i = 0; i < numberTeams; i++)
+        for (int i = 0; i < numberTeams; ++i)
         {
-            Debug.Log("Next team!");
-            for (int j = 0 ; j < state.Vessels[i].Count - 1; j++ )
-            {
-                Debug.Log("Current Ship : " + j);
-
-                Vessel current = null;
-                foreach (Vessel ves in ships)
-                {
-                    if (ves.transform.position.x == state.Vessels[i][j].x && ves.transform.position.y == state.Vessels[i][j].y)
-                    {
-                        current = ves;
-                        break;
-                    }
-                }
-                Vessel next = null;
-                foreach (Vessel ves in ships)
-                {
-                    if (current != ves && ves.transform.position.x == state.Vessels[i][j+1].x && ves.transform.position.y == state.Vessels[i][j+1].y)
-                    {
-                        next = ves;
-                        break;
-                    }
-                }
-                Debug.Log("Current : " + (current != null).ToString() + ", Next : " + (next != null).ToString());
-                if (current != null && next != null)
-                    current.otherShip = next.gameObject;
-            }   
+        	lines[i].positionCount = state.Vessels[i].Count;
+        	for(int j = 0; j < state.Vessels[i].Count; ++j)
+        	{
+        	if(i == 1)
+        		Debug.Log(state.Vessels[i][j] + " " + ships[state.Vessels[i][j]].transform.position);
+        		lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
+        		/*if(currentShip != noInput && state.Vessels[i][j] == (Vector2)ships[currentShip].transform.position)
+        		{
+        			lines[i].SetPosition(j, ships[currentShip].transform.position);
+        		}
+        		else
+        			lines[i].SetPosition(j, state.Vessels[i][j]);*/
+        	}
         }
     }
 
     public void AquireShip(Vector2 position)
 	{
-		for (int i = 0; i < ships.Count; ++i)
+		//for (int i = 0; i < ships.Count; ++i)
 		{
-			if ((Vector2)ships[i].transform.position == position)// && ships[i].Owner == CurrentPlayer)
+			//if ((Vector2)ships[i].transform.position == position)// && ships[i].Owner == CurrentPlayer)
 			{
-				currentShip = i;
+				currentShip = position;
 				Debug.Log("Ship aquired");
 				return;
 			}
@@ -247,8 +235,9 @@ public class Game : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Game Over " + state.WhoWon());
+			//Debug.Log("Game Over " + state.WhoWon());
 		}
+		SetupShipLines();
 	}
 
 	Model.Action ProcessInput()
@@ -256,7 +245,7 @@ public class Game : MonoBehaviour
 		Model.Action action = null;
 		if (lastInput != noInput)
 		{
-			if (currentShip == -1)
+			if (currentShip == noInput)
 			{
 				action = new Model.SelectShipAction(lastInput);
 			} 

@@ -63,7 +63,12 @@ namespace Model
 
 		public override void ApplyAction(Game game)
 		{
-			foreach(Vessel vessel in game.Ships)
+			Vessel ship = game.Ships[game.CurrentShip];
+    		game.Ships.Remove(game.CurrentShip);
+    		game.Ships[destination] = ship;
+    		game.CurrentShip = destination;
+
+			foreach(Vessel vessel in game.Ships.Values)
 			{
 				if((Vector2)vessel.transform.position == source /*game.State.SelectedPosition*/)
 				{
@@ -71,19 +76,13 @@ namespace Model
 
 					for(int i = 0; i < positions.Count; ++i)
 					{
-						for(int j = 0; j < game.Ships.Count; ++j)
-						{
-							if((Vector2)game.Ships[j].transform.position == positions[i])
-							{
-								game.Ships[j].Owner = playerID;
-							}
-						}
+
+						game.Ships[positions[i]].Owner = playerID;
 					}
 					break;
 					//vessel.transform.position = new Vector3(destination.x, destination.y, vessel.transform.position.z);
 				}
 			}
-            game.SetupShipLines();
 		}
 
 		public override bool IsLegal(GameState state)
