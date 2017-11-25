@@ -96,10 +96,10 @@ namespace Model
 					{
 						if (Utilities.isPointInTriangle(ships[currentPlayer][index - 1], source, destination, ships[i][j]))
 						{
-							Debug.Log(ships[i][j]);
+							//Debug.Log(ships[i][j]);
 							if (!positions.Contains(ships[i][j]))
 							{
-								Debug.Log("Taken over");
+								//Debug.Log("Taken over");
 								indexes.Add(index);
 								positions.Add(ships[i][j]);
 								players.Add(i);
@@ -119,10 +119,10 @@ namespace Model
 					{
 						if (Utilities.isPointInTriangle(source, ships[currentPlayer][index + 1], destination, ships[i][j]))
 						{
-							Debug.Log(ships[i][j]);
+							//Debug.Log(ships[i][j]);
 							if (!positions.Contains(ships[i][j]))
 							{
-								Debug.Log("Taken over");
+								//Debug.Log("Taken over");
 								indexes.Add(index + 1);
 								positions.Add(ships[i][j]);
 								players.Add(i);
