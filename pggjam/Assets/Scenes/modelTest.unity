@@ -796,8 +796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 561218150}
   vessels: {fileID: 191380935}
-  currentPlayer: 0
-  currentShip: 0
+  currentShip: -1
 --- !u!1 &1625819685
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 0
-  speed: 10
+  speed: 100
 --- !u!1001 &1689550939
 Prefab:
   m_ObjectHideFlags: 0
