@@ -23,6 +23,11 @@ public class Game : MonoBehaviour
 
 	Model.GameState state;
 
+	public Model.GameState State
+	{
+		get { return state;}
+	}
+
 	public List<Vessel> Ships
 	{
 		get { return ships; }
@@ -39,8 +44,18 @@ public class Game : MonoBehaviour
 		get { return state.CurrentPlayer;}
 	}
 
+	public static readonly Vector2 noInput = new Vector2(int.MaxValue, int.MaxValue);
+	Vector2 lastInput;// = noInput;
+
+	public Vector2 Input
+	{
+		set{ lastInput = value;}
+	}
+
 	void Start()
 	{
+		lastInput = noInput;
+
 		foreach (Transform child in grid)
 		{
 			nodes.Add(child.gameObject.GetComponent<Node>());
@@ -51,11 +66,11 @@ public class Game : MonoBehaviour
 			ships.Add(child.gameObject.GetComponent<Vessel>());
 		}
 
-		state = CreateState();
-		Model.Action action0 = new Model.MoveAction(new Vector2(0,3), new Vector2(3,-3));
-		action0.ApplyAction(state);
-		state.Print();
-		Debug.Log("Winner: " + state.WhoWon());
+		//state = CreateState();
+		//Model.Action action0 = new Model.MoveAction(new Vector2(0,3), new Vector2(3,-3));
+		//action0.ApplyAction(state);
+		//state.Print();
+		//Debug.Log("Winner: " + state.WhoWon());
 
 		state = CreateState();
 
@@ -83,19 +98,11 @@ public class Game : MonoBehaviour
 			vesselsPositions[vessel.Owner].Add(vessel.transform.position);
 		}
 
-		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], 0, map);
+		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], 0, map, noInput);
 	}
 
     public void moveShip(Vector2 pos)
     {
-        //Check if can move to that node
-        Model.MoveAction move = new Model.MoveAction(ships[currentShip].transform.position, pos);
-        if(!move.IsLegal(state))
-        	return;
-
-        move.ApplyAction(state);
-        state.Print();
-        //move.ApplyAction(this);
 
 		StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
     }
@@ -126,6 +133,7 @@ public class Game : MonoBehaviour
 			if ((Vector2)ships[i].transform.position == position)// && ships[i].Owner == CurrentPlayer)
 			{
 				currentShip = i;
+				Debug.Log("Ship aquired");
 				return;
 			}
     	}
@@ -133,6 +141,40 @@ public class Game : MonoBehaviour
 
 	void Update() 
 	{
-		
+		if(state.WhoWon() == -1)
+		{
+			Model.Action  action = ProcessInput();
+			if(action != null && action.IsLegal(state))
+			{
+				action.ApplyAction(state);
+				action.ApplyAction(this);
+			}
+		}
+		else
+		{
+			Debug.Log("Game Over " + state.WhoWon());
+		}
+	}
+
+	Model.Action ProcessInput()
+	{
+		Model.Action action = null;
+		if (lastInput != noInput)
+		{
+			Debug.Log("input");
+			if (currentShip == -1)
+			{
+				Debug.Log("Tyring ");
+				//AquireShip(lastInput);
+				action = new Model.SelectShipAction(lastInput);
+			} 
+			else
+			{
+				action = new Model.MoveAction(lastInput);
+			}
+		}
+
+		lastInput = noInput;
+		return action;
 	}
 }

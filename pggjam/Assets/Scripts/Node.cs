@@ -30,10 +30,11 @@ public class Node : MonoBehaviour
 	{
 		if (gameManager != null)
 		{
-			if (gameManager.CurrentShip != -1)
+			/*if (gameManager.CurrentShip != -1)
 			{
 				gameManager.moveShip(transform.position);
-			}
+			}*/
+			gameManager.Input = transform.position;
         }
     }
 

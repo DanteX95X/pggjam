@@ -9,23 +9,24 @@ namespace Model
 		Vector2 source;
 		Vector2 destination;
 
-		public MoveAction(Vector2 source, Vector2 destination)
+		public MoveAction(Vector2 destination)
 			: base(ActionType.MOVE)
 		{
-			this.source = source;
 			this.destination = destination;
 		}
 
 		public override void ApplyAction(GameState state)
 		{
+			source = state.SelectedPosition;
 			for(int i = 0; i < state.Vessels[state.CurrentPlayer].Count; ++i)
 			{
 				Vector2 currentPosition = state.Vessels[state.CurrentPlayer][i];
-				if(currentPosition == source)
+				if(currentPosition == state.SelectedPosition)
 				{
 					state.Winner = CheckWinConditions(state.Vessels[state.CurrentPlayer], state.Vessels[(state.CurrentPlayer+1)%2], i, state.CurrentPlayer);
 
 					state.Vessels[state.CurrentPlayer][i] = destination;
+					state.SelectedPosition = Game.noInput;
 					return;
 				}
 			}
@@ -35,21 +36,22 @@ namespace Model
 		{
 			foreach(Vessel vessel in game.Ships)
 			{
-				if((Vector2)vessel.transform.position == source)
+				if((Vector2)vessel.transform.position == source /*game.State.SelectedPosition*/)
 				{
-					vessel.transform.position = new Vector3(destination.x, destination.y, vessel.transform.position.z);
+					game.moveShip(destination);
+					//vessel.transform.position = new Vector3(destination.x, destination.y, vessel.transform.position.z);
 				}
 			}
 		}
 
 		public override bool IsLegal(GameState state)
 		{
-			return state.Vessels[state.CurrentPlayer].Contains(source) && ! state.Vessels[state.CurrentPlayer].Contains(destination);
+			return !state.Vessels[state.CurrentPlayer].Contains(destination) && !state.Vessels[(state.CurrentPlayer+1)%2].Contains(destination);
 		}
 
 		public override void Print()
 		{
-			Debug.Log(source + " -> " + destination);
+			Debug.Log("Move to " + destination);
 		}
 
 		int CheckWinConditions(List<Vector2> playerShips, List<Vector2> opponentShips, int index, int currentPlayer)
@@ -90,12 +92,12 @@ namespace Model
 		{
 			if(opponentShipIndex > 0)
 			{
-				//Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex-1] - opponentShips[opponentShipIndex] ));
+				Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex-1] - opponentShips[opponentShipIndex] ));
 				return Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex-1] - opponentShips[opponentShipIndex] );
 			}
 			if(opponentShipIndex < opponentShips.Count - 1)
 			{
-				//Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] ));
+				Debug.Log("    " + Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] ));
 				return Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] );
 			}
 			return 360;

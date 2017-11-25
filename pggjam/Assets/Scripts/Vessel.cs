@@ -39,10 +39,15 @@ public class Vessel : MonoBehaviour
 
 	private void OnMouseDown()
 	{
-		if (gameManager != null && gameManager.CurrentShip == -1)
+		/*if (gameManager != null && gameManager.CurrentShip == -1)
 		{
 			Debug.Log("ship aquired");
 			gameManager.AquireShip(transform.position);
-        }
+        }*/
+		if (gameManager != null)
+		{
+			Debug.Log("ok");
+			gameManager.Input = transform.position;
+		}
     }
 }

@@ -7,6 +7,7 @@ namespace Model
 	public enum ActionType
 	{
 		MOVE,
+		SELECT,
 	}
 
 	public abstract class Action
