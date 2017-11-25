@@ -63,9 +63,9 @@ public class Game : MonoBehaviour
 	}
 
 
-	void ParseGraph()
+	void ParseGraph(string name)
 	{
-		using (StreamReader reader = new StreamReader("ufo"))
+		using (StreamReader reader = new StreamReader(name))
 		{
 			string line = reader.ReadLine();
 			string[] words;
@@ -117,7 +117,7 @@ public class Game : MonoBehaviour
 
 	void Start()
 	{
-		ParseGraph();
+		ParseGraph("ufo");
 		lastInput = noInput;
 
 		/*foreach (Transform child in grid)
@@ -247,7 +247,7 @@ public class Game : MonoBehaviour
 		}
 		else
 		{
-			//Debug.Log("Game Over " + state.WhoWon());
+			Debug.Log("Game Over " + state.WhoWon());
 		}
 	}
 
