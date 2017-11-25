@@ -71,6 +71,11 @@ namespace Model
 						winner = currentPlayer;
 						break;
 					}
+					else
+					{
+						winner = (currentPlayer + 1)%2;
+						break;
+					}
 					
 				}
 				if(index < playerShips.Count -1)
@@ -81,6 +86,11 @@ namespace Model
 					if(result && angle < CheckLossConditions(source, i, opponentShips))
 					{
 						winner = currentPlayer;
+						break;
+					}
+					else
+					{
+						winner = (currentPlayer + 1)%2;
 						break;
 					}
 				}
