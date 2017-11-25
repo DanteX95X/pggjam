@@ -71,7 +71,17 @@ namespace Model
 			{
 				foreach(Vector2 position in nodes[selectedPosition])
 				{
-					actions.Add(new Model.MoveAction(position));
+					bool canAdd = true;
+					for(int i = 0; i < vessels.Length; ++i)
+					{
+						for(int j = 0; j < vessels[i].Count; ++j)
+						{
+							if(vessels[i][j] == position)
+								canAdd = false;
+						}
+					}
+					if(canAdd)
+						actions.Add(new Model.MoveAction(position));
 				}
 			}
 
