@@ -27,10 +27,13 @@ public class Node : MonoBehaviour
 	}
 
     private void OnMouseDown()
-    {
-        if (gameManager != null)
-        {
-            gameManager.moveShip(transform.position);
+	{
+		if (gameManager != null)
+		{
+			if (gameManager.CurrentShip != -1)
+			{
+				gameManager.moveShip(transform.position);
+			}
         }
     }
 

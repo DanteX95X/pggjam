@@ -10,6 +10,13 @@ public class Vessel : MonoBehaviour
 	[SerializeField]
 	float speed = 10.0f;
 
+	Game gameManager = null;
+
+	void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>();
+    }
+
 	public float Speed
 	{
 		get { return speed;}
@@ -29,4 +36,13 @@ public class Vessel : MonoBehaviour
 	{
 		
 	}
+
+	private void OnMouseDown()
+	{
+		if (gameManager != null && gameManager.CurrentShip == -1)
+		{
+			Debug.Log("ship aquired");
+			gameManager.AquireShip(transform.position);
+        }
+    }
 }

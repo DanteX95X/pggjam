@@ -42,6 +42,11 @@ namespace Model
 			}
 		}
 
+		public override bool IsLegal(GameState state)
+		{
+			return state.Vessels[state.CurrentPlayer].Contains(source) && ! state.Vessels[state.CurrentPlayer].Contains(destination);
+		}
+
 		public override void Print()
 		{
 			Debug.Log(source + " -> " + destination);

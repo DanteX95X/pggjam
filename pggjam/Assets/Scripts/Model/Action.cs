@@ -20,6 +20,7 @@ namespace Model
 
 		public abstract void ApplyAction(GameState state);
 		public abstract void ApplyAction(Game game);
+		public abstract bool IsLegal(GameState state);
 		public abstract void Print();
 	}
 }
