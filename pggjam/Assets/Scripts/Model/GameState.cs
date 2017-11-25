@@ -34,6 +34,11 @@ namespace Model
 			set { selectedPosition = value;}
 		}
 
+		public Dictionary<Vector2, List<Vector2>> Nodes
+		{
+			get { return nodes; }
+		}
+
 		public GameState()
 		{
 		}
@@ -79,6 +84,11 @@ namespace Model
 
 		public int WhoWon()
 		{
+			int winner = -1;
+			if(vessels[0].Count < 2)
+				winner = 1;
+			else if(vessels[1].Count < 2)
+				winner = 0;
 			return winner;
 		}
 

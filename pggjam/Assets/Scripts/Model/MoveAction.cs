@@ -39,8 +39,8 @@ namespace Model
 
 			for(int i = 0; i < indexes.Count; ++i)
 			{
-				Debug.Log("" + indexes.Count + " " + positions.Count + " " + players.Count + " " + playersIndexes.Count);
-				Debug.Log("" + players[0] + " " + players[1]);
+				//Debug.Log("" + indexes.Count + " " + positions.Count + " " + players.Count + " " + playersIndexes.Count);
+				//Debug.Log("" + players[0] + " " + players[1]);
 				state.Vessels[state.CurrentPlayer].Insert(indexes[i], positions[i]);
 				for(int j = 0; j < indexes.Count; ++j)
 				{
@@ -81,7 +81,7 @@ namespace Model
 
 		public override bool IsLegal(GameState state)
 		{
-			return !state.Vessels[state.CurrentPlayer].Contains(destination) && !state.Vessels[(state.CurrentPlayer+1)%2].Contains(destination);
+			return state.Nodes[state.SelectedPosition].Contains(destination) && !state.Vessels[state.CurrentPlayer].Contains(destination) && !state.Vessels[(state.CurrentPlayer+1)%2].Contains(destination);
 		}
 
 		public override void Print()
@@ -140,7 +140,7 @@ namespace Model
 			}
 		}
 
-		int CheckWinConditions(List<Vector2> playerShips, List<Vector2> opponentShips, int index, int currentPlayer)
+		/*int CheckWinConditions(List<Vector2> playerShips, List<Vector2> opponentShips, int index, int currentPlayer)
 		{
 			int winner = -1;
 			bool result = false;
@@ -197,6 +197,6 @@ namespace Model
 				return Utilities.angleBetweenVectors(source - opponentShips[opponentShipIndex], opponentShips[opponentShipIndex+1] - opponentShips[opponentShipIndex] );
 			}
 			return 360;
-		}
+		}*/
 	}
 }
