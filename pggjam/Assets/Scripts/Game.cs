@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Text;
+using System.Linq;
+using System;
 
 public class Game : MonoBehaviour 
 {
@@ -9,6 +13,12 @@ public class Game : MonoBehaviour
 
 	[SerializeField]
 	Transform vessels = null;
+
+	[SerializeField]
+	GameObject nodePrefab = null;
+
+	[SerializeField]
+	GameObject vesselPrefab = null;
 
 	//[SerializeField]
 	//int currentPlayer = -1;
@@ -52,19 +62,73 @@ public class Game : MonoBehaviour
 		set{ lastInput = value;}
 	}
 
+
+	void ParseGraph()
+	{
+		using (StreamReader reader = new StreamReader("ufo"))
+		{
+			string line = reader.ReadLine();
+			string[] words;
+
+			int count = Int32.Parse(line);
+			for(int i = 0; i < count; ++i)
+			{
+				line = reader.ReadLine();
+				words = line.Split();
+				Vector3 position = new Vector3(float.Parse(words[0]), float.Parse(words[1]), -1);
+				GameObject instance = Instantiate(nodePrefab, position, Quaternion.identity);
+				instance.transform.parent = grid;
+				nodes.Add(instance.GetComponent<Node>());
+			}
+
+			Debug.Log(" nodes : " + nodes.Count);
+			line = reader.ReadLine();
+			line = reader.ReadLine();
+			count = Int32.Parse(line);
+			for(int i = 0; i < count; ++i)
+			{
+				line = reader.ReadLine();
+				words = line.Split();
+				int first = Int32.Parse(words[0]);
+				int second = Int32.Parse(words[1]);
+
+				nodes[first].Neighbours.Add(nodes[second]);
+				nodes[second].Neighbours.Add(nodes[first]);
+			}
+
+			line = reader.ReadLine();
+			line = reader.ReadLine();
+			count = Int32.Parse(line);
+			for(int i = 0; i < count; ++i)
+			{
+				line = reader.ReadLine();
+				words = line.Split();
+				int index = Int32.Parse(words[0]);
+				int owner = Int32.Parse(words[1]);
+				GameObject instance = Instantiate(vesselPrefab, nodes[index].transform.position - new Vector3(0,0,1), Quaternion.identity);
+				instance.transform.parent = vessels;
+				instance.GetComponent<Vessel>().Owner = owner;
+				ships.Add(instance.GetComponent<Vessel>());
+			}
+			 
+		}
+	}
+
+
 	void Start()
 	{
+		ParseGraph();
 		lastInput = noInput;
 
-		foreach (Transform child in grid)
+		/*foreach (Transform child in grid)
 		{
 			nodes.Add(child.gameObject.GetComponent<Node>());
-		}
+		}*/
 
-		foreach (Transform child in vessels)
+		/*foreach (Transform child in vessels)
 		{
 			ships.Add(child.gameObject.GetComponent<Vessel>());
-		}
+		}*/
 
 		state = CreateState();
 
@@ -146,7 +210,7 @@ public class Game : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Game Over " + state.WhoWon());
+			//Debug.Log("Game Over " + state.WhoWon());
 		}
 	}
 

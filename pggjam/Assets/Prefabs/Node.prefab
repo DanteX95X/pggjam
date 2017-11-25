@@ -107,7 +107,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 108d89a0b4f684a3e881b6247ed6e522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neighbours:
-  - {fileID: 0}
-  - {fileID: 0}
+  neighbours: []
   linePrefab: {fileID: 1594167423630314, guid: 30dd189e8e918ef4e877ff89937d072b, type: 2}
