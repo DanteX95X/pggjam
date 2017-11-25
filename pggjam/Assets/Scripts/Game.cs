@@ -110,11 +110,14 @@ public class Game : MonoBehaviour
 
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
+        Vector3 directionVector = startPos - destpos;
+        directionVector.Normalize();
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
-        {
+        { 
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
             float fracJourney = distCovered / journeyLength;
-            ships[currentShip].transform.position = Vector3.Lerp(startPos, destpos, fracJourney);
+
+            ships[currentShip].transform.position += directionVector * ships[currentShip].Speed * Time.deltaTime;
             yield return null;
         }
         ShipMovementEnd();
