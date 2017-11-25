@@ -45,11 +45,13 @@ public class Vessel : MonoBehaviour
        
     }
 
-	private void OnMouseDown()
+	public void OnMouseDown()
 	{
 		if (gameManager != null)
 		{
 			gameManager.Input = transform.position;
 		}
     }
+
+
 }
