@@ -60,6 +60,10 @@ namespace Model
 		public List<Action> GenerateActions()
 		{
 			List<Action> actions = new List<Action>();
+
+			if(vessels[currentPlayer].Count < 2)
+				return actions;
+
 			if (SelectedPosition == Game.noInput)
 			{
 				foreach (Vector2 position in vessels[currentPlayer])
