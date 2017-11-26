@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void UpdateProgressStatus(){
-		print ("progress");
+		//print ("progress");
 	}
 
 	void SimulateMouseClick(){
