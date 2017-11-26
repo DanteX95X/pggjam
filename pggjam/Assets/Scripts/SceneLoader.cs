@@ -28,4 +28,8 @@ public class SceneLoader : MonoBehaviour {
 		#endif
 		Application.Quit ();
 	}
+
+	public void SimulateClick(){
+		
+	}
 }
