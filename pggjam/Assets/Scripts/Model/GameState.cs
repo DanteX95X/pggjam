@@ -39,9 +39,9 @@ namespace Model
 			get { return nodes; }
 		}
 
-		//public GameState()
-		//{
-		//}
+		public GameState()
+		{
+		}
 
 		public GameState(List<Vector2> playerVessels, List<Vector2> opponentVessels, int currentPlayer, Dictionary<Vector2, List<Vector2>> nodes, Vector2 selectedPosition, int winner = -1)
 		{

@@ -138,6 +138,36 @@ public class Game : MonoBehaviour
 			foreach(Vector2 neighbour in map[position])
 			{
 				nodeMap[position].Neighbours.Add(nodeMap[neighbour]);
+				//nodeMap[neighbour].Neighbours.Add(nodeMap[position]);
+			}
+		}
+
+		foreach(Node node in nodeMap.Values)
+			nodes.Add(node);
+
+		List<Vector2> lottery = new List<Vector2>();
+		foreach(Vector2 pos in map.Keys)
+		{
+			lottery.Add(pos);
+		}
+
+		int quantity = UnityEngine.Random.Range(2, nodeMap.Values.Count/4 + 1);
+		HashSet<int> taken = new HashSet<int>();
+		for(int j = 0; j < 2; ++j)
+		{
+			for(int i = 0; i < quantity; ++i)
+			{
+				int index = -1;
+				do
+				{
+					index = UnityEngine.Random.Range(0, lottery.Count);
+				}
+				while(taken.Contains(index));
+				taken.Add(index);
+				GameObject vessel = Instantiate(vesselPrefab, (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
+				vessel.transform.parent = vessels;
+				vessel.GetComponent<Vessel>().Owner = j;
+				ships[lottery[index]] = vessel.GetComponent<Vessel>();
 			}
 		}
 	}
