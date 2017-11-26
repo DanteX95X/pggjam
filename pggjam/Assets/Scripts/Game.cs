@@ -21,10 +21,7 @@ public class Game : MonoBehaviour
 	GameObject nodePrefab = null;
 
 	[SerializeField]
-	GameObject vesselGoodPrefab = null;
-
-    [SerializeField]
-    GameObject vesselBadPrefab = null;
+	GameObject[] vesselPrefabs = null;
 
     [SerializeField]
 	List<LineRenderer> lines = null;
@@ -121,15 +118,7 @@ public class Game : MonoBehaviour
 				int index = Int32.Parse(words[0]);
 				int owner = Int32.Parse(words[1]);
                 GameObject instance = null;
-                if (owner == 0)
-                {
-                    instance = Instantiate(vesselGoodPrefab, nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
-                }
-                else
-                {
-                    instance = Instantiate(vesselBadPrefab, nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
-                }
-                    
+                instance = Instantiate(vesselPrefabs[owner], nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
 
                 instance.transform.parent = vessels;
 				instance.GetComponent<Vessel>().Owner = owner;
@@ -181,7 +170,7 @@ public class Game : MonoBehaviour
 				}
 				while(taken.Contains(index));
 				taken.Add(index);
-				GameObject vessel = Instantiate(vesselGoodPrefab, (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
+				GameObject vessel = Instantiate(vesselPrefabs[j], (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
 				vessel.transform.parent = vessels;
 				vessel.GetComponent<Vessel>().Owner = j;
 				ships[lottery[index]] = vessel.GetComponent<Vessel>();
@@ -352,7 +341,7 @@ public class Game : MonoBehaviour
 					case ControllerType.RANDOM:
 					{
 						List<Model.Action> actions = state.GenerateActions();
-						action = actions[UnityEngine.Random.Range(0, actions.Count)];
+						action = actions[UnityEngine.Random.Range(0, actions.Count-1)];
 						break;
 					}
 				}
