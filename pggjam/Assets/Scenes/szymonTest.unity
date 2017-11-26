@@ -533,7 +533,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.2
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -624,7 +624,7 @@ MonoBehaviour:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
-  controllers: 0000000001000000
+  gameManager: {fileID: 0}
 --- !u!1 &1547568826
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,6 +834,8 @@ MonoBehaviour:
   continueThreshold: 1.5
   deltaProgress: 0
   deltaContinue: 0
+  isVsAI: 0
+  isFromFile: 0
 --- !u!4 &2030430152
 Transform:
   m_ObjectHideFlags: 0
@@ -863,7 +865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &2045867907
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -957,6 +957,8 @@ MonoBehaviour:
   continueThreshold: 1
   deltaProgress: 0
   deltaContinue: 0
+  isVsAI: 0
+  isFromFile: 0
 --- !u!4 &1165927875
 Transform:
   m_ObjectHideFlags: 0
