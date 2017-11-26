@@ -8,10 +8,12 @@ public class LevelLoaderData : MonoBehaviour {
 	public bool fromFile = true;
 
 	GameObject[] sc;
+	GameManager gm;
 
 	// Use this for initialization
 	void Start () {
 		sc = GameObject.FindGameObjectsWithTag ("ui");
+		gm = FindObjectOfType<GameManager> ();
 	}
 	
 	// Update is called once per frame
@@ -41,8 +43,10 @@ public class LevelLoaderData : MonoBehaviour {
 		} else {
 			if (left1.selected) {
 				vsAI = true;
+				gm.isVsAI = true;
 			} else if (right1.selected) {
 				vsAI = false;
+				gm.isVsAI = false;
 			}
 		}
 
@@ -52,8 +56,10 @@ public class LevelLoaderData : MonoBehaviour {
 		}else {
 			if (left2.selected) {
 				fromFile = true;
+				gm.isFromFile = true;
 			} else if (right2.selected) {
 				fromFile = false;
+				gm.isFromFile = false;
 			}
 		}
 

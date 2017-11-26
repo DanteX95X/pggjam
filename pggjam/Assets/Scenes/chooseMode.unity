@@ -651,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ca8d582ae604d51acf39b0ea1eb3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: modelTest
+  name: szymonTest
   selected: 0
   isData: 0
 --- !u!65 &513894637
