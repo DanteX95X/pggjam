@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	//TODO:add eveerywhere where we want interaction gazeaware
 
 	//Gaze Related Parameters
-	public bool isETEnabled = false; //will hold info about whether we 
+	public bool isETEnabled = true; //will hold info about whether we 
 	GameObject currentGazeTarget;
 	GameObject lastGazeTarget;
 	public float progressThreshold = 0.5f;
@@ -20,11 +20,12 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		DontDestroyOnLoad (gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isETEnabled) {return;}
 		currentGazeTarget = TobiiAPI.GetFocusedObject ();
 		deltaProgress += Time.deltaTime;
 		deltaContinue += Time.deltaTime;
@@ -55,8 +56,10 @@ public class GameManager : MonoBehaviour {
 			currentGazeTarget.GetComponent<Vessel> ().OnMouseDown ();
 		if (currentGazeTarget.CompareTag ("node")) 
 			currentGazeTarget.GetComponent<Node> ().OnMouseDown ();
-		//if(currentGazeTarget.CompareTag("ui"))
-			//simulate mouse click at the point
+		if (currentGazeTarget.CompareTag ("ui"))
+			currentGazeTarget.GetComponent<SceneLoader> ().LoadLevel ();
+		if(currentGazeTarget.CompareTag("exit"))
+			currentGazeTarget.GetComponent<SceneLoader>().Quit();
 
 
 
@@ -67,6 +70,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void SimulateMouseClick(){
-
+		
 	}
 }

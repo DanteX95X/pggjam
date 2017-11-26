@@ -621,51 +621,6 @@ MonoBehaviour:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
---- !u!1 &2030430150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2030430152}
-  - component: {fileID: 2030430151}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2030430151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2030430150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f93c5157165ead42ae1dc0f7541f8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isETEnabled: 0
-  progressThreshold: 0.5
-  continueThreshold: 1.5
-  deltaProgress: 0
-  deltaContinue: 0
---- !u!4 &2030430152
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2030430150}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2045867906
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +631,7 @@ GameObject:
   - component: {fileID: 2045867909}
   - component: {fileID: 2045867908}
   - component: {fileID: 2045867907}
+  - component: {fileID: 2045867910}
   m_Layer: 0
   m_Name: GazePlot
   m_TagString: Untagged
@@ -758,3 +714,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2045867910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2045867906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e3dacf437210c42a53f17ee10a67fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
