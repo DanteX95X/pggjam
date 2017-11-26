@@ -105,6 +105,11 @@ namespace Model
 			Debug.Log("Move to " + destination);
 		}
 
+		public override Vector2 TargetPosition()
+		{
+			return destination;
+		}
+
 		void TakeShipOver(Model.GameState state, int index, int currentPlayer, List<Vector2>[] ships)
 		{
 

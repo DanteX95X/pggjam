@@ -23,5 +23,6 @@ namespace Model
 		public abstract void ApplyAction(Game game);
 		public abstract bool IsLegal(GameState state);
 		public abstract void Print();
+		public abstract Vector2 TargetPosition();
 	}
 }
