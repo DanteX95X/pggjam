@@ -267,8 +267,9 @@ public class Game : MonoBehaviour
     {
     	isInCouroutine = true;
 		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
-        //child.LookAt(destpos, -ships[currentShip].transform.right);
-        //ships[currentShip].transform.Rotate(90, 0, 180);
+        float angle = Model.Utilities.angleBetweenVectors(ships[currentShip].transform.up,(destpos - startPos));
+        ships[currentShip].transform.Rotate(new Vector3(0,0,-1), angle);
+        Debug.Log(angle);
         MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
