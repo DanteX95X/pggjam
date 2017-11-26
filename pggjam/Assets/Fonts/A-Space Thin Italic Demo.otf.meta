@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f7060606e9ae5294eb8a66ec283f74f8
+timeCreated: 1511700003
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: A-Space Thin Demo
+  fontNames:
+  - A-Space Thin Demo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 71648728204635549a2312e8c8eb2039, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

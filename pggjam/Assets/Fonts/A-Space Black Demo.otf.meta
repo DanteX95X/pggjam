@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: b843d3ccb4f8ed6438620f81f30b8e79
+timeCreated: 1511700003
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: A-Space Black Demo
+  fontNames:
+  - A-Space Black Demo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b5556683feed0cf4baf3190c462a81ee, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

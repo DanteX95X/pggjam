@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour 
 {
@@ -36,6 +38,12 @@ public class Game : MonoBehaviour
 	public GameManager gameManager;
 
 	bool isInCouroutine = false;
+
+    Text winText;
+
+    bool isWon = false;
+
+    float timePassed = 0;
 
 	public Model.GameState State
 	{
@@ -245,6 +253,8 @@ public class Game : MonoBehaviour
 
         MarkActions();
 
+        winText = FindObjectOfType<Text>();
+
 	}
 
 	Model.GameState CreateState()
@@ -334,6 +344,16 @@ public class Game : MonoBehaviour
     bool dirtyHack = true;
 	void Update()
 	{
+        if (isWon)
+        {
+            timePassed += Time.deltaTime;
+            if(timePassed >= 2.0f)
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+
+
 		if(dirtyHack)
 		{
 			dirtyHack = false;
@@ -377,6 +397,18 @@ public class Game : MonoBehaviour
 			else
 			{
 				Debug.Log("Game Over " + state.WhoWon());
+                if(state.WhoWon() == 1)
+                {
+                    winText.text = "Player 1 won!";
+                    winText.enabled = true;
+                    isWon = true;
+                } else if(state.WhoWon()== 0)
+                {
+                    winText.text = "Player 0 won!";
+                    winText.enabled = true;
+                    isWon = true;
+
+                }
 			}
 		}
 

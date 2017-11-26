@@ -163,6 +163,36 @@ Prefab:
       propertyPath: m_Name
       value: Music Slider (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 224793314242998244, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 224793314242998244, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 224598332734655698, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224598332734655698, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224167377855295230, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224167377855295230, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7cdaa6617c16a42b4a6e9f638a4d3dff, type: 2}
   m_IsPrefabParent: 0
@@ -253,7 +283,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 272107416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 764.5, y: 267, z: 0}
+  m_LocalPosition: {x: 377, y: 212, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 668550616}
@@ -422,7 +452,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 668550615}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 200, z: 0}
+  m_LocalPosition: {x: 0, y: 180, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 272107420}
@@ -430,7 +460,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 180}
   m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &668550617
@@ -492,7 +522,7 @@ Prefab:
     - target: {fileID: 224463442043969214, guid: 434fc467f03904157904c081deb891d0,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -230
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 224463442043969214, guid: 434fc467f03904157904c081deb891d0,
         type: 2}
@@ -532,7 +562,7 @@ Prefab:
     - target: {fileID: 224463442043969214, guid: 434fc467f03904157904c081deb891d0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -230
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 224463442043969214, guid: 434fc467f03904157904c081deb891d0,
         type: 2}
@@ -654,6 +684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: menuScene
   selected: 0
+  isData: 0
 --- !u!1001 &1271522669
 Prefab:
   m_ObjectHideFlags: 0
