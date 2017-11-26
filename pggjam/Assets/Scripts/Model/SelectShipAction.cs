@@ -16,7 +16,12 @@ namespace Model
 
 		public override bool IsLegal(GameState state)
 		{
-			return state.Vessels[state.CurrentPlayer].Contains(position);
+			foreach(Action action in state.GenerateActions())
+			{
+				if(equals(action))
+					return true;
+			}
+			return false;//state.Vessels[state.CurrentPlayer].Contains(position);
 		}
 
 		public override void ApplyAction(GameState state)
@@ -32,6 +37,15 @@ namespace Model
 		public override void Print()
 		{
 			Debug.Log("Selection " + position);
+		}
+
+		bool equals(Action other)
+		{
+			if(type == other.type)
+			{
+				return position == ((SelectShipAction)other).position;
+			}
+			return false;
 		}
 
 		

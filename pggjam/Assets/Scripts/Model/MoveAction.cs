@@ -31,7 +31,7 @@ namespace Model
 				Vector2 currentPosition = state.Vessels[state.CurrentPlayer][i];
 				if(currentPosition == state.SelectedPosition)
 				{
-					TakeShipOver(i, state.CurrentPlayer, state.Vessels);
+					TakeShipOver(state, i, state.CurrentPlayer, state.Vessels);
 
 					state.Vessels[state.CurrentPlayer][i] = destination;
 					state.SelectedPosition = Game.noInput;
@@ -42,16 +42,32 @@ namespace Model
 			for(int i = 0; i < indexes.Count; ++i)
 			{
 				state.Vessels[state.CurrentPlayer].Insert(indexes[i], positions[i]);
-				for(int j = 0; j < indexes.Count; ++j)
+				for(int j = i; j < indexes.Count; ++j)
 				{
 					++indexes[j];
+					//++playersIndexes[j];
 				}
-				state.Vessels[players[i]].RemoveAt(playersIndexes[i]);
-				for(int j = 0; j < playersIndexes.Count; ++j)
+
+				for(int j = i; j < playersIndexes.Count; ++j)
 				{
 					--playersIndexes[j];
+					//--indexes[j];
 				}
 			}
+			for(int i = 0; i < playersIndexes.Count; ++i)
+			{
+				/*state.Vessels[players[i]].RemoveAt(playersIndexes[i]);
+				for(int j = i; j < playersIndexes.Count; ++j)
+				{
+					--playersIndexes[j];
+				}*/
+				state.Vessels[players[i]].Remove(positions[i]);
+			}
+
+			indexes.Clear();
+			positions.Clear();
+			players.Clear();
+			playersIndexes.Clear();
 
 			playerID = state.CurrentPlayer;
 			state.NextTurn();
@@ -68,14 +84,20 @@ namespace Model
 
 			for(int i = 0; i < positions.Count; ++i)
 			{
-
-				game.Ships[positions[i]].Owner = playerID;
+				try
+				{
+					game.Ships[positions[i]].Owner = playerID;
+				}
+				catch(System.Exception)
+				{
+					Debug.Log("Not ok");
+				}
 			}
 		}
 
 		public override bool IsLegal(GameState state)
 		{
-			return state.Nodes[state.SelectedPosition].Contains(destination) && !state.Vessels[state.CurrentPlayer].Contains(destination) && !state.Vessels[(state.CurrentPlayer+1)%2].Contains(destination);
+			return state.Nodes.ContainsKey(state.SelectedPosition) && state.Nodes[state.SelectedPosition].Contains(destination) && !state.Vessels[state.CurrentPlayer].Contains(destination) && !state.Vessels[(state.CurrentPlayer+1)%2].Contains(destination);
 		}
 
 		public override void Print()
@@ -83,7 +105,7 @@ namespace Model
 			Debug.Log("Move to " + destination);
 		}
 
-		void TakeShipOver(int index, int currentPlayer, List<Vector2>[] ships)
+		void TakeShipOver(Model.GameState state, int index, int currentPlayer, List<Vector2>[] ships)
 		{
 
 			if (index > 0)
@@ -96,10 +118,8 @@ namespace Model
 					{
 						if (Utilities.isPointInTriangle(ships[currentPlayer][index - 1], source, destination, ships[i][j]))
 						{
-							//Debug.Log(ships[i][j]);
 							if (!positions.Contains(ships[i][j]))
 							{
-								//Debug.Log("Taken over");
 								indexes.Add(index);
 								positions.Add(ships[i][j]);
 								players.Add(i);
@@ -119,14 +139,13 @@ namespace Model
 					{
 						if (Utilities.isPointInTriangle(source, ships[currentPlayer][index + 1], destination, ships[i][j]))
 						{
-							//Debug.Log(ships[i][j]);
 							if (!positions.Contains(ships[i][j]))
 							{
-								//Debug.Log("Taken over");
 								indexes.Add(index + 1);
 								positions.Add(ships[i][j]);
 								players.Add(i);
 								playersIndexes.Add(j);
+
 							}
 						}
 					}

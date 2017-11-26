@@ -6,7 +6,7 @@ namespace Model
 {
 	struct Result
 	{
-		public int value;
+		public float value;
 		public Action action;
 	}
 
@@ -23,7 +23,7 @@ namespace Model
 			Action bestAction = null;
 			do
 			{
-				Model.Action current = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 1, null, timeLimit, timeStart).action;
+				Model.Action current = Prune(state, depth, int.MinValue, int.MaxValue, state.CurrentPlayer == 0, null, timeLimit, timeStart).action;
 				if(!needToExit)
 					bestAction = current;
 				++depth;
@@ -36,7 +36,7 @@ namespace Model
 			needToExit = false;
 		}
 		
-		static Result Prune(GameState state, int depth, int alpha, int beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
+		static Result Prune(GameState state, int depth, float alpha, float beta, bool isMaximizing, Action lastAction, float timeLimit, float timeStart)
 		{
 			Result result = new Result();// = new Result();
 			if(needToExit)
@@ -58,7 +58,7 @@ namespace Model
 				return result;
 			}
 
-			int value;
+			float value;
 			Action bestAction = null;
 
 			if(isMaximizing)
@@ -66,6 +66,7 @@ namespace Model
 				value = int.MinValue;
 				foreach(Action action in state.GenerateActions())
 				{
+					if(!action.IsLegal(state)) return result;
 					GameState child = state.Clone();
 					action.ApplyAction(child);
 					Result nextLevelResult = Prune(child, depth-1, alpha, beta, false, action, timeLimit, timeStart);

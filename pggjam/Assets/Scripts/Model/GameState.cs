@@ -39,13 +39,13 @@ namespace Model
 			get { return nodes; }
 		}
 
-		//public GameState()
-		//{
-		//}
-
-		public GameState(List<Vector2> playerVessels, List<Vector2> opponentVessels, int currentPlayer, Dictionary<Vector2, List<Vector2>> nodes, Vector2 selectedPosition, int winner = -1)
+		/*public GameState()
 		{
-			vessels = new List<Vector2>[2] {playerVessels, opponentVessels};
+		}*/
+
+		public GameState(List<Vector2> playerVessels, List<Vector2> opponentVessels, List<Vector2> neutral, int currentPlayer, Dictionary<Vector2, List<Vector2>> nodes, Vector2 selectedPosition, int winner = -1)
+		{
+			vessels = new List<Vector2>[3] {playerVessels, opponentVessels, neutral};
 			this.currentPlayer = currentPlayer;
 			this.nodes = nodes;
 			this.winner = winner;
@@ -54,7 +54,7 @@ namespace Model
 
 		public GameState Clone()
 		{
-				return new GameState(new List<Vector2>(vessels[0]), new List<Vector2>(vessels[1]), currentPlayer, nodes, selectedPosition, winner);
+				return new GameState(new List<Vector2>(vessels[0]), new List<Vector2>(vessels[1]), new List<Vector2>(vessels[2]), currentPlayer, nodes, selectedPosition, winner);
 		}
 
 		public List<Action> GenerateActions()
@@ -64,7 +64,22 @@ namespace Model
 			{
 				foreach (Vector2 position in vessels[currentPlayer])
 				{
-					actions.Add(new Model.SelectShipAction(position));
+					bool isPossible = false;
+					foreach(Vector2 neighbour in nodes[position])
+					{
+						bool canAdd = true;
+						for(int i = 0; i < vessels.Length; ++i)
+						{
+							for(int j = 0; j < vessels[i].Count; ++j)
+							{
+								if(vessels[i][j] == neighbour)
+									canAdd = false;
+							}
+						}
+						isPossible = isPossible || canAdd;
+					}
+					if(isPossible)
+						actions.Add(new Model.SelectShipAction(position));
 				}
 			}
 			else
@@ -98,9 +113,24 @@ namespace Model
 			return winner;
 		}
 
-		public int Payoff()
+		public float Payoff()
 		{
-			return vessels[0].Count - vessels[1].Count;
+			float[] payoffs = new float[2] {0,0};
+			for(int i = 0; i < 2; ++i)
+			{
+				if(vessels[i].Count == 2)
+					payoffs[i] = 1.0f;
+				else if(vessels[i].Count < 2)
+					payoffs[i] = -1000;
+				else
+					for(int j = 2; j < vessels[i].Count; ++j)
+					{
+						float adjacent = (vessels[i][j] - vessels[i][j-1]).magnitude;
+						float hypotenuse = Mathf.Abs(Model.Utilities.DistanceFromLine(vessels[i][j], vessels[i][j-1], vessels[i][0]));
+						payoffs[i] += adjacent * hypotenuse / 2;//(vessels[i][j] - vessels[i][j-1]).magnitude;
+					}
+			}
+			return payoffs[0] - payoffs[1];
 		}
 
 		public void Print()

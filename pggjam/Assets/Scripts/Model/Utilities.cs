@@ -38,5 +38,12 @@ namespace Model
 				angle = 360 + angle;
 			return angle;
 		}
+
+		public static float CrossProduct(Vector2 origin, Vector2 first, Vector2 second)
+		{
+			return (first.x - origin.x)  * (second.y - origin.y)  -  (first.y - origin.y) * (second.x - origin.x);
+		}
+
+
 	}
 }

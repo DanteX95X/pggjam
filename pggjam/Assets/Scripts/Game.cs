@@ -14,13 +14,16 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	Transform vessels = null;
 
-	[SerializeField]
+    [SerializeField]
+    Transform selection = null;
+
+    [SerializeField]
 	GameObject nodePrefab = null;
 
 	[SerializeField]
-	GameObject vesselPrefab = null;
+	GameObject[] vesselPrefabs = null;
 
-	[SerializeField]
+    [SerializeField]
 	List<LineRenderer> lines = null;
 
     List<Node> nodes = new List<Node>();
@@ -68,6 +71,7 @@ public class Game : MonoBehaviour
 		RANDOM,
 	}
 
+	[SerializeField]
 	ControllerType[] controllers = new ControllerType[2];
 
 
@@ -113,8 +117,10 @@ public class Game : MonoBehaviour
 				words = line.Split();
 				int index = Int32.Parse(words[0]);
 				int owner = Int32.Parse(words[1]);
-				GameObject instance = Instantiate(vesselPrefab, nodes[index].transform.position - new Vector3(0,0,1), Quaternion.identity);
-				instance.transform.parent = vessels;
+                GameObject instance = null;
+                instance = Instantiate(vesselPrefabs[owner], nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
+
+                instance.transform.parent = vessels;
 				instance.GetComponent<Vessel>().Owner = owner;
 				ships[(Vector2)instance.transform.position] = (instance.GetComponent<Vessel>());
 			}
@@ -122,9 +128,97 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	void ParseGraph(Dictionary<Vector2, List<Vector2>> map)
+	{
+		Dictionary<Vector2, Node> nodeMap = new Dictionary<Vector2, Node>();
+		foreach(Vector2 position in map.Keys)
+		{
+			nodeMap[position] = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
+			nodeMap[position].transform.parent = grid;
+		}
+
+		foreach(Vector2 position in map.Keys)
+		{
+			//if(map[position].Count < 3) continue;
+
+			foreach(Vector2 neighbour in map[position])
+			{
+				nodeMap[position].Neighbours.Add(nodeMap[neighbour]);
+				//nodeMap[neighbour].Neighbours.Add(nodeMap[position]);
+			}
+		}
+
+		foreach(Node node in nodeMap.Values)
+			nodes.Add(node);
+
+		List<Vector2> lottery = new List<Vector2>();
+		foreach(Vector2 pos in map.Keys)
+		{
+			lottery.Add(pos);
+		}
+
+		int quantity = UnityEngine.Random.Range(2, nodeMap.Values.Count/4 + 1);
+		HashSet<int> taken = new HashSet<int>();
+		for(int j = 0; j < 2; ++j)
+		{
+			for(int i = 0; i < quantity; ++i)
+			{
+				int index = -1;
+				do
+				{
+					index = UnityEngine.Random.Range(0, lottery.Count);
+				}
+				while(taken.Contains(index));
+				taken.Add(index);
+				GameObject vessel = Instantiate(vesselPrefabs[j], (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
+				vessel.transform.parent = vessels;
+				vessel.GetComponent<Vessel>().Owner = j;
+				ships[lottery[index]] = vessel.GetComponent<Vessel>();
+			}
+		}
+	}
+
+	List<Vector2> GeneratePoints(float radius, int rangeX, int rangeY, int quantity)
+	{
+		//rangeX *= 10;
+		//rangeY *= 10;
+		List<Vector2> deltas = new List<Vector2>();
+		for (int x = -rangeX; x <= rangeX; ++x)
+		{
+			for(int y = -rangeY; y <= rangeY; ++y)
+			{
+				if(x*x + y*y <= radius * radius)
+				{
+					deltas.Add(new Vector2(x,y));
+				}
+			}
+		}
+
+		List<Vector2> points = new List<Vector2>();
+		HashSet<Vector2> excluded = new HashSet<Vector2>();
+		for(int i = 0; i < quantity; ++i)
+		{
+			Vector2 point = new Vector2(UnityEngine.Random.Range(-rangeX, rangeX), UnityEngine.Random.Range(-rangeY, rangeY));
+			if(excluded.Contains(point)) continue;
+
+			points.Add(point);
+
+			foreach(Vector2 delta in deltas)
+			{
+				excluded.Add(point + delta);
+			}
+		}
+		return points;
+	}
+
 
 	void Start()
 	{
+		//List<Vector2> vector = new List<Vector2> {  ;
+		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
+
+		//ParseGraph(triangulation);
+
 		ParseGraph("ufo");
 		lastInput = noInput;
 
@@ -134,13 +228,13 @@ public class Game : MonoBehaviour
 
         SetupShipLines();
 
-        controllers[0] = ControllerType.HUMAN;
-        controllers[1] = ControllerType.RANDOM;
+        //controllers[0] = ControllerType.HUMAN;
+        //controllers[1] = ControllerType.RANDOM;
 	}
 
 	Model.GameState CreateState()
 	{
-		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>()};
+		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>(), new List<Vector2>()};
 
 		Dictionary<Vector2, List<Vector2>> map = new Dictionary<Vector2, List<Vector2>>();
 		foreach(Node node in nodes)
@@ -158,18 +252,23 @@ public class Game : MonoBehaviour
 			vesselsPositions[vessel.Owner].Add(vessel.transform.position);
 		}
 
-		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], 0, map, noInput);
+		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], vesselsPositions[2], 0, map, noInput);
 	}
 
     public void moveShip(Vector2 pos)
     {
-		StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
+        ships[currentShip].SetParticlesActive();
+        StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
     }
 
 
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
     	isInCouroutine = true;
+		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
+        //child.LookAt(destpos, -ships[currentShip].transform.right);
+        //ships[currentShip].transform.Rotate(90, 0, 180);
+        MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -178,15 +277,22 @@ public class Game : MonoBehaviour
             yield return null;
         }
         isInCouroutine = false;
-        ships[currentShip].transform.position = destpos;
+        //ships[currentShip].transform.position = destpos;
+        /*Vessel ship = ships[currentShip];
+        ships.Remove(currentShip);
+        currentShip = destpos;
+        ships[currentShip] = ship;
+        ships[currentShip].transform.position = destpos;*/
         ShipMovementEnd();
     }
 
     void ShipMovementEnd()
     {
-    	currentShip = noInput;
+        ships[currentShip].SetParticlesActive(false);
+        currentShip = noInput;
         //Debug.Log("ShipMovementEnd");
     }
+
 
     public void SetupShipLines()
     {
@@ -196,7 +302,7 @@ public class Game : MonoBehaviour
         	lines[i].positionCount = state.Vessels[i].Count;
         	for(int j = 0; j < state.Vessels[i].Count; ++j)
         	{
-        		lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
+    			lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
         	}
         }
     }
@@ -206,6 +312,17 @@ public class Game : MonoBehaviour
 		currentShip = position;
 		//Debug.Log("Ship aquired");
 		return;
+    }
+
+    public void MoveSelection(bool onShip = false)
+    {
+        if (onShip)
+        {
+            selection.gameObject.SetActive(true);
+            selection.position = new Vector3(lastInput.x, lastInput.y, -1);
+        }
+        else
+            selection.gameObject.SetActive(false);
     }
 
 	void Update()
@@ -224,7 +341,7 @@ public class Game : MonoBehaviour
 					}
 					case ControllerType.AI:
 					{
-						StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
+						StartCoroutine(Model.AlphaBeta.StartPruning(state, 0.3f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
 						action = Model.AlphaBeta.ufo;
 						break;
 					}
@@ -260,12 +377,15 @@ public class Game : MonoBehaviour
 		{
 			if (currentShip == noInput)
 			{
-				action = new Model.SelectShipAction(lastInput);
-			} 
+                MoveSelection(true);
+                action = new Model.SelectShipAction(lastInput);
+                
+            } 
 			else
 			{
-				action = new Model.MoveAction(lastInput);
-			}
+                
+                action = new Model.MoveAction(lastInput);
+            }
 		}
 
 		lastInput = noInput;
