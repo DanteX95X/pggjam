@@ -234,6 +234,7 @@ public class Game : MonoBehaviour
 
         SetupShipLines();
 
+
 		if (gameManager.isVsAI) {
 			controllers[0] = ControllerType.HUMAN;
 			controllers[1] = ControllerType.AI;
@@ -241,6 +242,9 @@ public class Game : MonoBehaviour
 			controllers[0] = ControllerType.HUMAN;
 			controllers[1] = ControllerType.HUMAN;
 		}
+
+        MarkActions();
+
 	}
 
 	Model.GameState CreateState()
@@ -277,8 +281,9 @@ public class Game : MonoBehaviour
     {
     	isInCouroutine = true;
 		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
-        //child.LookAt(destpos, -ships[currentShip].transform.right);
-        //ships[currentShip].transform.Rotate(90, 0, 180);
+        float angle = Model.Utilities.angleBetweenVectors(ships[currentShip].transform.up,(destpos - startPos));
+        ships[currentShip].transform.Rotate(new Vector3(0,0,-1), angle);
+        Debug.Log(angle);
         MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
@@ -336,8 +341,15 @@ public class Game : MonoBehaviour
             selection.gameObject.SetActive(false);
     }
 
+    bool dirtyHack = true;
 	void Update()
 	{
+		if(dirtyHack)
+		{
+			dirtyHack = false;
+			MarkActions();
+		}
+
 		if (!isInCouroutine)
 		{
 			if (state.WhoWon() == -1)
@@ -367,10 +379,11 @@ public class Game : MonoBehaviour
 				{
 					action.ApplyAction(state);
 					action.ApplyAction(this);
+					MarkActions();
 					//action.Print();
 					Model.AlphaBeta.ufo = null;
 				}
-			} 
+			}
 			else
 			{
 				Debug.Log("Game Over " + state.WhoWon());
@@ -401,5 +414,24 @@ public class Game : MonoBehaviour
 
 		lastInput = noInput;
 		return action;
+	}
+
+	void MarkActions()
+	{
+		
+		List<Model.Action> legalActions = state.GenerateActions();
+		Debug.Log(legalActions.Count);
+		for(int j = 0; j < nodes.Count; ++j)
+		{
+			nodes[j].RestoreMaterial();
+			for(int i = 0; i < legalActions.Count; ++i)
+			{
+				if((Vector2)nodes[j].transform.position == legalActions[i].TargetPosition())
+				{
+					nodes[j].GetComponent<Renderer>().material.SetColor("_TintColor", Color.white);
+					break;
+				}
+			}
+		}
 	}
 }

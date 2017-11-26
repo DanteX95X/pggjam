@@ -48,6 +48,11 @@ namespace Model
 			return false;
 		}
 
+		public override Vector2 TargetPosition()
+		{
+			return position;
+		}
+
 		
 	}
 }
