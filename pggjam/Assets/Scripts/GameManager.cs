@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour {
 
 	UIChecker checker;
 
+	public bool isVsAI = false;
+	public bool isFromFile = false;
+
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad (gameObject);

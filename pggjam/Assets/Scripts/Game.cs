@@ -33,6 +33,8 @@ public class Game : MonoBehaviour
 
 	Model.GameState state;
 
+	public GameManager gameManager;
+
 	bool isInCouroutine = false;
 
 	public Model.GameState State
@@ -70,8 +72,7 @@ public class Game : MonoBehaviour
 		AI,
 		RANDOM,
 	}
-
-	[SerializeField]
+		
 	ControllerType[] controllers = new ControllerType[2];
 
 
@@ -217,9 +218,14 @@ public class Game : MonoBehaviour
 		//List<Vector2> vector = new List<Vector2> {  ;
 		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
 
-		//ParseGraph(triangulation);
+		gameManager = FindObjectOfType<GameManager> ();
 
-		ParseGraph("ufo");
+		if(gameManager.isFromFile){
+			ParseGraph("ufo");
+		} else {
+			ParseGraph(triangulation);
+		}
+
 		lastInput = noInput;
 
 		state = CreateState();
@@ -228,9 +234,17 @@ public class Game : MonoBehaviour
 
         SetupShipLines();
 
-        //controllers[0] = ControllerType.HUMAN;
-        //controllers[1] = ControllerType.RANDOM;
+
+		if (gameManager.isVsAI) {
+			controllers[0] = ControllerType.HUMAN;
+			controllers[1] = ControllerType.AI;
+		} else {
+			controllers[0] = ControllerType.HUMAN;
+			controllers[1] = ControllerType.HUMAN;
+		}
+
         MarkActions();
+
 	}
 
 	Model.GameState CreateState()
