@@ -269,7 +269,7 @@ public class Game : MonoBehaviour
 		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
         //child.LookAt(destpos, -ships[currentShip].transform.right);
         //ships[currentShip].transform.Rotate(90, 0, 180);
-        MoveSelection(false);
+        //MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -315,12 +315,12 @@ public class Game : MonoBehaviour
 		return;
     }
 
-    public void MoveSelection(bool onShip = false)
+	public void MoveSelection(Vector2 place, bool onShip = false)
     {
         if (onShip)
         {
             selection.gameObject.SetActive(true);
-            selection.position = new Vector3(lastInput.x, lastInput.y, -1);
+            selection.position = new Vector3(place.x, place.y, -1);
         }
         else
             selection.gameObject.SetActive(false);
@@ -384,12 +384,19 @@ public class Game : MonoBehaviour
 		Model.Action action = null;
 		if (lastInput != noInput)
 		{
-			if (currentShip == noInput)
+			if(lastInput == state.SelectedPosition)
 			{
-                MoveSelection(true);
+				state.SelectedPosition = noInput;
+				currentShip = noInput;
+				MoveSelection(noInput, false);
+				MarkActions();
+			}
+			else if (currentShip == noInput)
+			{
+                //MoveSelection(true);
                 action = new Model.SelectShipAction(lastInput);
                 
-            } 
+            }
 			else
 			{
                 
@@ -405,7 +412,6 @@ public class Game : MonoBehaviour
 	{
 		
 		List<Model.Action> legalActions = state.GenerateActions();
-		Debug.Log(legalActions.Count);
 		for(int j = 0; j < nodes.Count; ++j)
 		{
 			nodes[j].RestoreMaterial();
