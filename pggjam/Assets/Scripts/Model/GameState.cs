@@ -113,9 +113,25 @@ namespace Model
 			return winner;
 		}
 
-		public int Payoff()
+		public float Payoff()
 		{
-			return vessels[0].Count - vessels[1].Count;
+			float[] payoffs = new float[2] {0,0};
+			for(int i = 0; i < 2; ++i)
+			{
+				if(vessels[i].Count == 2)
+					payoffs[i] = 0.01f;
+				else if(vessels[i].Count < 2)
+					payoffs[i] = -1000;
+				else
+					for(int j = 2; j < vessels[i].Count; ++j)
+					{
+						float adjacent = (vessels[i][j] - vessels[i][j-1]).magnitude;
+						float hypotenuse = Mathf.Abs(Model.Utilities.DistanceFromLine(vessels[i][j], vessels[i][j-1], vessels[i][0]));
+						payoffs[i] += adjacent * hypotenuse / 2;//(vessels[i][j] - vessels[i][j-1]).magnitude;
+					}
+			}
+			return payoffs[0] - payoffs[1];
+			//return vessels[0].Count - vessels[1].Count;
 		}
 
 		public void Print()

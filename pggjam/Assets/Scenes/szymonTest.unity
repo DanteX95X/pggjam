@@ -559,7 +559,7 @@ MonoBehaviour:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
-  controllers: 0000000002000000
+  controllers: 0000000001000000
 --- !u!1 &1547568826
 GameObject:
   m_ObjectHideFlags: 0

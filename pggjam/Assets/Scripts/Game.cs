@@ -278,11 +278,11 @@ public class Game : MonoBehaviour
         }
         isInCouroutine = false;
         //ships[currentShip].transform.position = destpos;
-        Vessel ship = ships[currentShip];
+        /*Vessel ship = ships[currentShip];
         ships.Remove(currentShip);
         currentShip = destpos;
         ships[currentShip] = ship;
-        ships[currentShip].transform.position = destpos;
+        ships[currentShip].transform.position = destpos;*/
         ShipMovementEnd();
     }
 
@@ -302,7 +302,7 @@ public class Game : MonoBehaviour
         	lines[i].positionCount = state.Vessels[i].Count;
         	for(int j = 0; j < state.Vessels[i].Count; ++j)
         	{
-        		lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
+    			lines[i].SetPosition(j, ships[state.Vessels[i][j]].transform.position);
         	}
         }
     }
