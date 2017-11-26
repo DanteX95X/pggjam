@@ -19,6 +19,8 @@ public class Node : MonoBehaviour
 		get { return neighbours; }
 	}
 
+	Color color;
+
 
     void Awake()
     {
@@ -28,6 +30,8 @@ public class Node : MonoBehaviour
 
     void Start () 
 	{
+		color = Color.yellow;
+		
 		if(neighbours.Count == 0)
 			Debug.LogError("No neighbours in object " + gameObject.name);
 
@@ -48,10 +52,6 @@ public class Node : MonoBehaviour
 	{
 		if (gameManager != null)
 		{
-			/*if (gameManager.CurrentShip != -1)
-			{
-				gameManager.moveShip(transform.position);
-			}*/
 			gameManager.Input = transform.position;
         }
     }
@@ -69,5 +69,10 @@ public class Node : MonoBehaviour
     void Update ()
 	{
 		
+	}
+
+	public void RestoreMaterial()
+	{
+		GetComponent<Renderer>().material.SetColor("_TintColor", color);
 	}
 }
