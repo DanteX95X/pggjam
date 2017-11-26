@@ -26,6 +26,9 @@ public class Game : MonoBehaviour
     [SerializeField]
 	List<LineRenderer> lines = null;
 
+	[SerializeField]
+	AudioClip selectionSound = null;
+
     List<Node> nodes = new List<Node>();
 	Dictionary<Vector2, Vessel> ships = new Dictionary<Vector2, Vessel>();
 
@@ -316,6 +319,8 @@ public class Game : MonoBehaviour
 
     public void AquireShip(Vector2 position)
 	{
+		if(controllers[CurrentPlayer] == ControllerType.HUMAN)
+			GetComponent<AudioSource>().PlayOneShot(selectionSound);
 		currentShip = position;
 		return;
     }
