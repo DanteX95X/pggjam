@@ -122,10 +122,68 @@ public class Game : MonoBehaviour
 		}
 	}
 
+	void ParseGraph(Dictionary<Vector2, List<Vector2>> map)
+	{
+		Dictionary<Vector2, Node> nodeMap = new Dictionary<Vector2, Node>();
+		foreach(Vector2 position in map.Keys)
+		{
+			nodeMap[position] = Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
+			nodeMap[position].transform.parent = grid;
+		}
+
+		foreach(Vector2 position in map.Keys)
+		{
+			//if(map[position].Count < 3) continue;
+
+			foreach(Vector2 neighbour in map[position])
+			{
+				nodeMap[position].Neighbours.Add(nodeMap[neighbour]);
+			}
+		}
+	}
+
+	List<Vector2> GeneratePoints(float radius, int rangeX, int rangeY, int quantity)
+	{
+		//rangeX *= 10;
+		//rangeY *= 10;
+		List<Vector2> deltas = new List<Vector2>();
+		for (int x = -rangeX; x <= rangeX; ++x)
+		{
+			for(int y = -rangeY; y <= rangeY; ++y)
+			{
+				if(x*x + y*y <= radius * radius)
+				{
+					deltas.Add(new Vector2(x,y));
+				}
+			}
+		}
+
+		List<Vector2> points = new List<Vector2>();
+		HashSet<Vector2> excluded = new HashSet<Vector2>();
+		for(int i = 0; i < quantity; ++i)
+		{
+			Vector2 point = new Vector2(UnityEngine.Random.Range(-rangeX, rangeX), UnityEngine.Random.Range(-rangeY, rangeY));
+			if(excluded.Contains(point)) continue;
+
+			points.Add(point);
+
+			foreach(Vector2 delta in deltas)
+			{
+				excluded.Add(point + delta);
+			}
+		}
+		return points;
+	}
+
 
 	void Start()
 	{
-		ParseGraph("ufo");
+		//List<Vector2> vector = new List<Vector2> {  ;
+		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
+
+		ParseGraph(triangulation);
+
+		//ParseGraph("ufo");
 		lastInput = noInput;
 
 		state = CreateState();
