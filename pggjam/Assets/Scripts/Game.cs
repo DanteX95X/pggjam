@@ -341,7 +341,7 @@ public class Game : MonoBehaviour
 					case ControllerType.RANDOM:
 					{
 						List<Model.Action> actions = state.GenerateActions();
-						action = actions[UnityEngine.Random.Range(0, actions.Count-1)];
+						action = actions[UnityEngine.Random.Range(0, actions.Count)];
 						break;
 					}
 				}

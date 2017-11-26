@@ -64,7 +64,22 @@ namespace Model
 			{
 				foreach (Vector2 position in vessels[currentPlayer])
 				{
-					actions.Add(new Model.SelectShipAction(position));
+					bool isPossible = false;
+					foreach(Vector2 neighbour in nodes[position])
+					{
+						bool canAdd = true;
+						for(int i = 0; i < vessels.Length; ++i)
+						{
+							for(int j = 0; j < vessels[i].Count; ++j)
+							{
+								if(vessels[i][j] == neighbour)
+									canAdd = false;
+							}
+						}
+						isPossible = isPossible || canAdd;
+					}
+					if(isPossible)
+						actions.Add(new Model.SelectShipAction(position));
 				}
 			}
 			else
