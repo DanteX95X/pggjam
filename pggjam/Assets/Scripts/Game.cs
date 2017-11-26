@@ -266,10 +266,9 @@ public class Game : MonoBehaviour
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
     	isInCouroutine = true;
-		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
-        //child.LookAt(destpos, -ships[currentShip].transform.right);
-        //ships[currentShip].transform.Rotate(90, 0, 180);
-        //MoveSelection(false);
+        float angle = Model.Utilities.angleBetweenVectors(ships[currentShip].transform.up,(destpos - startPos));
+        ships[currentShip].transform.Rotate(new Vector3(0,0,-1), angle);
+        Debug.Log(angle);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -278,12 +277,6 @@ public class Game : MonoBehaviour
             yield return null;
         }
         isInCouroutine = false;
-        //ships[currentShip].transform.position = destpos;
-        /*Vessel ship = ships[currentShip];
-        ships.Remove(currentShip);
-        currentShip = destpos;
-        ships[currentShip] = ship;
-        ships[currentShip].transform.position = destpos;*/
         ShipMovementEnd();
     }
 
@@ -291,7 +284,6 @@ public class Game : MonoBehaviour
     {
         ships[currentShip].SetParticlesActive(false);
         currentShip = noInput;
-        //Debug.Log("ShipMovementEnd");
     }
 
 
@@ -311,7 +303,6 @@ public class Game : MonoBehaviour
     public void AquireShip(Vector2 position)
 	{
 		currentShip = position;
-		//Debug.Log("Ship aquired");
 		return;
     }
 
@@ -372,7 +363,6 @@ public class Game : MonoBehaviour
 			else
 			{
 				Debug.Log("Game Over " + state.WhoWon());
-				//Time.timeScale = 0;
 			}
 		}
 
