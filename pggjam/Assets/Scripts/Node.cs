@@ -9,6 +9,9 @@ public class Node : MonoBehaviour
 
     Game gameManager = null;
 
+    [SerializeField]
+    Animator animator = null;
+
     public GameObject linePrefab = null;
 
 	public List<Node> Neighbours 
@@ -20,6 +23,7 @@ public class Node : MonoBehaviour
     void Awake()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>();
+        animator = GetComponent<Animator>();
     }
 
     void Start () 
@@ -34,8 +38,8 @@ public class Node : MonoBehaviour
                 GameObject go = Instantiate(linePrefab, transform);
                 LineRenderer line = go.GetComponent<LineRenderer>();
                 line.positionCount = 2;
-                line.SetPosition(0, transform.position);
-                line.SetPosition(1, neighbour.transform.position);
+                line.SetPosition(0, new Vector3(transform.position.x, transform.position.y, 1));
+                line.SetPosition(1, new Vector3(neighbour.transform.position.x, neighbour.transform.position.y, 1));
             }
         }
 	}
@@ -50,6 +54,16 @@ public class Node : MonoBehaviour
 			}*/
 			gameManager.Input = transform.position;
         }
+    }
+
+    public void OnMouseEnter()
+    {
+        animator.SetBool("isMouseOn", true);
+    }
+
+    private void OnMouseExit()
+    {
+        animator.SetBool("isMouseOn", false);
     }
 
     void Update ()

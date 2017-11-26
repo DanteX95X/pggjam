@@ -14,7 +14,10 @@ public class Game : MonoBehaviour
 	[SerializeField]
 	Transform vessels = null;
 
-	[SerializeField]
+    [SerializeField]
+    Transform selection = null;
+
+    [SerializeField]
 	GameObject nodePrefab = null;
 
 	[SerializeField]
@@ -273,6 +276,7 @@ public class Game : MonoBehaviour
     {
     	isInCouroutine = true;
         ships[currentShip].transform.LookAt(destpos);
+        MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -292,6 +296,7 @@ public class Game : MonoBehaviour
         //Debug.Log("ShipMovementEnd");
     }
 
+
     public void SetupShipLines()
     {
         int numberTeams = 2;
@@ -310,6 +315,17 @@ public class Game : MonoBehaviour
 		currentShip = position;
 		//Debug.Log("Ship aquired");
 		return;
+    }
+
+    public void MoveSelection(bool onShip = false)
+    {
+        if (onShip)
+        {
+            selection.gameObject.SetActive(true);
+            selection.position = new Vector3(lastInput.x, lastInput.y, -1);
+        }
+        else
+            selection.gameObject.SetActive(false);
     }
 
 	void Update()
@@ -364,12 +380,15 @@ public class Game : MonoBehaviour
 		{
 			if (currentShip == noInput)
 			{
-				action = new Model.SelectShipAction(lastInput);
-			} 
+                MoveSelection(true);
+                action = new Model.SelectShipAction(lastInput);
+                
+            } 
 			else
 			{
-				action = new Model.MoveAction(lastInput);
-			}
+                
+                action = new Model.MoveAction(lastInput);
+            }
 		}
 
 		lastInput = noInput;
