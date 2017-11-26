@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.SceneManagement;
+//using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI; 
 
 public class SceneLoader : MonoBehaviour {
 
-	public string name;
+	public new string name;
 	public bool selected = false;
 	public bool isData = false;
 	Button but;
@@ -41,7 +42,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 
 	public void LoadLevel(){
-		EditorSceneManager.LoadScene (name);
+		SceneManager.LoadScene (name);
 		print ("ting");
 	}
 
