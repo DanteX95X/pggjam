@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -559,6 +559,7 @@ MonoBehaviour:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
+  controllers: 0000000002000000
 --- !u!1 &1547568826
 GameObject:
   m_ObjectHideFlags: 0

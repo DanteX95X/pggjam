@@ -74,6 +74,7 @@ public class Game : MonoBehaviour
 		RANDOM,
 	}
 
+	[SerializeField]
 	ControllerType[] controllers = new ControllerType[2];
 
 
@@ -180,7 +181,7 @@ public class Game : MonoBehaviour
 				}
 				while(taken.Contains(index));
 				taken.Add(index);
-				GameObject vessel = Instantiate(vesselPrefab, (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
+				GameObject vessel = Instantiate(vesselGoodPrefab, (Vector3)lottery[index] - new Vector3(0,0,1), Quaternion.identity);
 				vessel.transform.parent = vessels;
 				vessel.GetComponent<Vessel>().Owner = j;
 				ships[lottery[index]] = vessel.GetComponent<Vessel>();
@@ -227,9 +228,9 @@ public class Game : MonoBehaviour
 		//List<Vector2> vector = new List<Vector2> {  ;
 		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
 
-		ParseGraph(triangulation);
+		//ParseGraph(triangulation);
 
-		//ParseGraph("ufo");
+		ParseGraph("ufo");
 		lastInput = noInput;
 
 		state = CreateState();
@@ -238,8 +239,8 @@ public class Game : MonoBehaviour
 
         SetupShipLines();
 
-        controllers[0] = ControllerType.HUMAN;
-        controllers[1] = ControllerType.RANDOM;
+        //controllers[0] = ControllerType.HUMAN;
+        //controllers[1] = ControllerType.RANDOM;
 	}
 
 	Model.GameState CreateState()
