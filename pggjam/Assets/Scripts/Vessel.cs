@@ -7,6 +7,8 @@ public class Vessel : MonoBehaviour
 
     public GameObject otherShip;
 
+    public ParticleSystem particles;
+
     private LineRenderer line;
 
     public int lineSegments = 100;
@@ -22,6 +24,8 @@ public class Vessel : MonoBehaviour
 	void Awake()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>();
+        particles = GetComponentInChildren<ParticleSystem>();
+        particles.Stop();
     }
 
 	public float Speed
@@ -35,15 +39,15 @@ public class Vessel : MonoBehaviour
 		set { owner = value; }
 	}
 
-	void Start () 
-	{
-		
-	}
 
-	void Update () 
-	{
-       
+    public void SetParticlesActive(bool value = true)
+    {
+        if (value)
+            particles.Play();
+        else
+            particles.Stop();
     }
+
 
 	public void OnMouseDown()
 	{

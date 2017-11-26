@@ -18,9 +18,12 @@ public class Game : MonoBehaviour
 	GameObject nodePrefab = null;
 
 	[SerializeField]
-	GameObject vesselPrefab = null;
+	GameObject vesselGoodPrefab = null;
 
-	[SerializeField]
+    [SerializeField]
+    GameObject vesselBadPrefab = null;
+
+    [SerializeField]
 	List<LineRenderer> lines = null;
 
     List<Node> nodes = new List<Node>();
@@ -113,8 +116,18 @@ public class Game : MonoBehaviour
 				words = line.Split();
 				int index = Int32.Parse(words[0]);
 				int owner = Int32.Parse(words[1]);
-				GameObject instance = Instantiate(vesselPrefab, nodes[index].transform.position - new Vector3(0,0,1), Quaternion.identity);
-				instance.transform.parent = vessels;
+                GameObject instance = null;
+                if (owner == 0)
+                {
+                    instance = Instantiate(vesselGoodPrefab, nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
+                }
+                else
+                {
+                    instance = Instantiate(vesselBadPrefab, nodes[index].transform.position - new Vector3(0, 0, 1), Quaternion.identity);
+                }
+                    
+
+                instance.transform.parent = vessels;
 				instance.GetComponent<Vessel>().Owner = owner;
 				ships[(Vector2)instance.transform.position] = (instance.GetComponent<Vessel>());
 			}
@@ -163,13 +176,15 @@ public class Game : MonoBehaviour
 
     public void moveShip(Vector2 pos)
     {
-		StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
+        ships[currentShip].SetParticlesActive();
+        StartCoroutine(MovePlayer(Time.time, Vector3.Distance(ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)), ships[currentShip].transform.position, new Vector3(pos.x, pos.y, ships[currentShip].transform.position.z)));
     }
 
 
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
     	isInCouroutine = true;
+        ships[currentShip].transform.LookAt(destpos);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -184,7 +199,8 @@ public class Game : MonoBehaviour
 
     void ShipMovementEnd()
     {
-    	currentShip = noInput;
+        ships[currentShip].SetParticlesActive(false);
+        currentShip = noInput;
         //Debug.Log("ShipMovementEnd");
     }
 
