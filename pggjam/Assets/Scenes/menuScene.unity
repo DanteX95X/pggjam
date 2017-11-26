@@ -299,7 +299,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 314843179}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 764.5, y: 267, z: 0}
+  m_LocalPosition: {x: 764.5, y: 267.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2048890665}
@@ -879,6 +879,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  selected: 0
+  isData: 0
 --- !u!65 &869232472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -907,7 +909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ca8d582ae604d51acf39b0ea1eb3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: modelTest
+  name: chooseMode
+  selected: 0
+  isData: 0
 --- !u!65 &1086071564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1344,6 +1348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: settings
+  selected: 0
+  isData: 0
 --- !u!65 &1940712259
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1423,7 +1429,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OURGAME XDDD
+  m_Text: XDWing - Fighter
 --- !u!222 &2048890667
 CanvasRenderer:
   m_ObjectHideFlags: 0
