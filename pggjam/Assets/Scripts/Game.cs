@@ -341,7 +341,7 @@ public class Game : MonoBehaviour
 					}
 					case ControllerType.AI:
 					{
-						StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
+						StartCoroutine(Model.AlphaBeta.StartPruning(state, 0.3f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
 						action = Model.AlphaBeta.ufo;
 						break;
 					}

@@ -119,7 +119,7 @@ namespace Model
 			for(int i = 0; i < 2; ++i)
 			{
 				if(vessels[i].Count == 2)
-					payoffs[i] = 0.01f;
+					payoffs[i] = 1.0f;
 				else if(vessels[i].Count < 2)
 					payoffs[i] = -1000;
 				else
@@ -131,7 +131,6 @@ namespace Model
 					}
 			}
 			return payoffs[0] - payoffs[1];
-			//return vessels[0].Count - vessels[1].Count;
 		}
 
 		public void Print()
