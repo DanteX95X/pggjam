@@ -61,6 +61,15 @@ public class Game : MonoBehaviour
 		set{ lastInput = value;}
 	}
 
+	enum ControllerType
+	{
+		HUMAN,
+		AI,
+		RANDOM,
+	}
+
+	ControllerType[] controllers = new ControllerType[2];
+
 
 	void ParseGraph(string name)
 	{
@@ -124,6 +133,9 @@ public class Game : MonoBehaviour
 		state.Print();
 
         SetupShipLines();
+
+        controllers[0] = ControllerType.HUMAN;
+        controllers[1] = ControllerType.RANDOM;
 	}
 
 	Model.GameState CreateState()
@@ -203,18 +215,25 @@ public class Game : MonoBehaviour
 			if (state.WhoWon() == -1)
 			{
 				Model.Action action = null;
-				if(CurrentPlayer == 0)
+				switch(controllers[CurrentPlayer])
 				{
-				//	List<Model.Action> actions = state.GenerateActions();
-				//	action = actions[UnityEngine.Random.Range(0, actions.Count)];
-					action = ProcessInput();
-				}
-				else if(CurrentPlayer == 1)
-				{
-					List<Model.Action> actions = state.GenerateActions();
-					action = actions[UnityEngine.Random.Range(0, actions.Count)];
-					//StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
-					//action = Model.AlphaBeta.ufo;
+					case ControllerType.HUMAN:
+					{
+						action = ProcessInput();
+						break;
+					}
+					case ControllerType.AI:
+					{
+						StartCoroutine(Model.AlphaBeta.StartPruning(state, 1.0f));//state.GenerateActions()[0];//Model.AlphaBeta.StartPruning(state.Clone(), 1.0f);
+						action = Model.AlphaBeta.ufo;
+						break;
+					}
+					case ControllerType.RANDOM:
+					{
+						List<Model.Action> actions = state.GenerateActions();
+						action = actions[UnityEngine.Random.Range(0, actions.Count)];
+						break;
+					}
 				}
 				if (action != null && action.IsLegal(state))
 				{
@@ -234,7 +253,7 @@ public class Game : MonoBehaviour
 		SetupShipLines();
 	}
 
-	Model.Action ProcessInput()
+	public Model.Action ProcessInput()
 	{
 		Model.Action action = null;
 		if (lastInput != noInput)
