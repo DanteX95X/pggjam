@@ -39,13 +39,13 @@ namespace Model
 			get { return nodes; }
 		}
 
-		public GameState()
+		/*public GameState()
 		{
-		}
+		}*/
 
-		public GameState(List<Vector2> playerVessels, List<Vector2> opponentVessels, int currentPlayer, Dictionary<Vector2, List<Vector2>> nodes, Vector2 selectedPosition, int winner = -1)
+		public GameState(List<Vector2> playerVessels, List<Vector2> opponentVessels, List<Vector2> neutral, int currentPlayer, Dictionary<Vector2, List<Vector2>> nodes, Vector2 selectedPosition, int winner = -1)
 		{
-			vessels = new List<Vector2>[2] {playerVessels, opponentVessels};
+			vessels = new List<Vector2>[3] {playerVessels, opponentVessels, neutral};
 			this.currentPlayer = currentPlayer;
 			this.nodes = nodes;
 			this.winner = winner;
@@ -54,7 +54,7 @@ namespace Model
 
 		public GameState Clone()
 		{
-				return new GameState(new List<Vector2>(vessels[0]), new List<Vector2>(vessels[1]), currentPlayer, nodes, selectedPosition, winner);
+				return new GameState(new List<Vector2>(vessels[0]), new List<Vector2>(vessels[1]), new List<Vector2>(vessels[2]), currentPlayer, nodes, selectedPosition, winner);
 		}
 
 		public List<Action> GenerateActions()

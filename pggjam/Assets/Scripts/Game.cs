@@ -234,7 +234,7 @@ public class Game : MonoBehaviour
 
 	Model.GameState CreateState()
 	{
-		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>()};
+		List<Vector2>[] vesselsPositions = {new List<Vector2>(), new List<Vector2>(), new List<Vector2>()};
 
 		Dictionary<Vector2, List<Vector2>> map = new Dictionary<Vector2, List<Vector2>>();
 		foreach(Node node in nodes)
@@ -252,7 +252,7 @@ public class Game : MonoBehaviour
 			vesselsPositions[vessel.Owner].Add(vessel.transform.position);
 		}
 
-		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], 0, map, noInput);
+		return new Model.GameState(vesselsPositions[0], vesselsPositions[1], vesselsPositions[2], 0, map, noInput);
 	}
 
     public void moveShip(Vector2 pos)
@@ -265,7 +265,9 @@ public class Game : MonoBehaviour
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
     	isInCouroutine = true;
-        ships[currentShip].transform.LookAt(destpos);
+		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
+        //child.LookAt(destpos, -ships[currentShip].transform.right);
+        //ships[currentShip].transform.Rotate(90, 0, 180);
         MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {

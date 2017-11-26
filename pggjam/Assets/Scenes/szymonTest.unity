@@ -551,10 +551,10 @@ MonoBehaviour:
   vessels: {fileID: 191380935}
   selection: {fileID: 1547568828}
   nodePrefab: {fileID: 1924270358859412, guid: c6c3fd467b93c4d1dada3117393063ce, type: 2}
-  vesselGoodPrefab: {fileID: 1747722607427304, guid: da58410bad341334da8150d12f46b6fd,
-    type: 2}
-  vesselBadPrefab: {fileID: 1605154294354236, guid: bda5f96ec83961e41a05ddff5f16c016,
-    type: 2}
+  vesselPrefabs:
+  - {fileID: 1747722607427304, guid: da58410bad341334da8150d12f46b6fd, type: 2}
+  - {fileID: 1605154294354236, guid: bda5f96ec83961e41a05ddff5f16c016, type: 2}
+  - {fileID: 1747722607427304, guid: da58410bad341334da8150d12f46b6fd, type: 2}
   lines:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
