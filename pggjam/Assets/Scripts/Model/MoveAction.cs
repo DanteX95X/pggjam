@@ -75,6 +75,7 @@ namespace Model
 
 		public override void ApplyAction(Game game)
 		{
+			game.MoveSelection(destination, false);
 			Vessel ship = game.Ships[game.CurrentShip];
     		game.Ships.Remove(game.CurrentShip);
     		game.Ships[destination] = ship;

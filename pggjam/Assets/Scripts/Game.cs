@@ -280,11 +280,9 @@ public class Game : MonoBehaviour
     IEnumerator MovePlayer(float startTime, float journeyLength, Vector3 startPos, Vector3 destpos)
     {
     	isInCouroutine = true;
-		Transform child = ships[currentShip].GetComponentInChildren<Transform>();
         float angle = Model.Utilities.angleBetweenVectors(ships[currentShip].transform.up,(destpos - startPos));
         ships[currentShip].transform.Rotate(new Vector3(0,0,-1), angle);
         Debug.Log(angle);
-        MoveSelection(false);
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
@@ -293,12 +291,6 @@ public class Game : MonoBehaviour
             yield return null;
         }
         isInCouroutine = false;
-        //ships[currentShip].transform.position = destpos;
-        /*Vessel ship = ships[currentShip];
-        ships.Remove(currentShip);
-        currentShip = destpos;
-        ships[currentShip] = ship;
-        ships[currentShip].transform.position = destpos;*/
         ShipMovementEnd();
     }
 
@@ -306,7 +298,6 @@ public class Game : MonoBehaviour
     {
         ships[currentShip].SetParticlesActive(false);
         currentShip = noInput;
-        //Debug.Log("ShipMovementEnd");
     }
 
 
@@ -326,16 +317,15 @@ public class Game : MonoBehaviour
     public void AquireShip(Vector2 position)
 	{
 		currentShip = position;
-		//Debug.Log("Ship aquired");
 		return;
     }
 
-    public void MoveSelection(bool onShip = false)
+	public void MoveSelection(Vector2 place, bool onShip = false)
     {
         if (onShip)
         {
             selection.gameObject.SetActive(true);
-            selection.position = new Vector3(lastInput.x, lastInput.y, -1);
+            selection.position = new Vector3(place.x, place.y, -1);
         }
         else
             selection.gameObject.SetActive(false);
@@ -387,7 +377,6 @@ public class Game : MonoBehaviour
 			else
 			{
 				Debug.Log("Game Over " + state.WhoWon());
-				//Time.timeScale = 0;
 			}
 		}
 
@@ -399,12 +388,19 @@ public class Game : MonoBehaviour
 		Model.Action action = null;
 		if (lastInput != noInput)
 		{
-			if (currentShip == noInput)
+			if(lastInput == state.SelectedPosition)
 			{
-                MoveSelection(true);
+				state.SelectedPosition = noInput;
+				currentShip = noInput;
+				MoveSelection(noInput, false);
+				MarkActions();
+			}
+			else if (currentShip == noInput)
+			{
+                //MoveSelection(true);
                 action = new Model.SelectShipAction(lastInput);
                 
-            } 
+            }
 			else
 			{
                 
@@ -420,7 +416,6 @@ public class Game : MonoBehaviour
 	{
 		
 		List<Model.Action> legalActions = state.GenerateActions();
-		Debug.Log(legalActions.Count);
 		for(int j = 0; j < nodes.Count; ++j)
 		{
 			nodes[j].RestoreMaterial();

@@ -31,6 +31,7 @@ namespace Model
 
 		public override void ApplyAction(Game game)
 		{
+			game.MoveSelection(position, true);
 			game.AquireShip(position);
 		}
 
