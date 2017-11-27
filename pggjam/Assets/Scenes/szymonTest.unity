@@ -222,7 +222,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 380870557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 377, y: 212, z: 0}
+  m_LocalPosition: {x: 586, y: 316, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1521825594}
@@ -875,7 +875,7 @@ MonoBehaviour:
   - {fileID: 1101813516}
   selectionSound: {fileID: 8300000, guid: ad12c80194eb74f26a3ce58ff96cf801, type: 3}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
-  gameManager: {fileID: 0}
+  controllers: 0000000000000000
 --- !u!82 &1545708550
 AudioSource:
   m_ObjectHideFlags: 0

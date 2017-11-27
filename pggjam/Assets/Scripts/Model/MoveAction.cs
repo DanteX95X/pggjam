@@ -136,13 +136,13 @@ namespace Model
 						{
 							if (!positions.Contains(ships[i][j]))
 							{
-								indexes.Add(index);
-								positions.Add(ships[i][j]);
+								//indexes.Add(index);
+								//positions.Add(ships[i][j]);
 
 								//Vector2[] segment = WhichWasFirst(destination, ships[currentPlayer][index-1]);
 
 								left.Add(new ToRemove(index, ships[i][j], i, Utilities.DotProduct(destination - ships[currentPlayer][index-1], ships[i][j] - ships[currentPlayer][index-1])));
-								players.Add(i);
+								//players.Add(i);
 							}
 						}
 					}
@@ -160,10 +160,10 @@ namespace Model
 						{
 							if (!positions.Contains(ships[i][j]))
 							{
-								indexes.Add(index + 1);
-								positions.Add(ships[i][j]);
+								//indexes.Add(index + 1);
+								//positions.Add(ships[i][j]);
 								right.Add(new ToRemove(index+1, ships[i][j], i, Utilities.DotProduct(ships[currentPlayer][index+1] - destination, ships[i][j] - destination)));
-								players.Add(i);
+								//players.Add(i);
 							}
 						}
 					}
@@ -175,12 +175,17 @@ namespace Model
 			foreach(ToRemove i in left)
 			{
 				Debug.Log(i.position + " " + i.projection);
+				indexes.Add(i.index);
+				positions.Add(i.position);
+				players.Add(i.player);
 			}
 			foreach(ToRemove i in right)
 			{
 				Debug.Log(i.position + " " + i.projection);
+				indexes.Add(i.index);
+				positions.Add(i.position);
+				players.Add(i.player);
 			}
-			//List<ToRemove> returnable = entries
 		}
 
 		Vector2[] WhichWasFirst(GameState state, Vector2 a, Vector2 b)
