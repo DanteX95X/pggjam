@@ -38,8 +38,6 @@ public class Game : MonoBehaviour
 
 	Model.GameState state;
 
-	public GameManager gameManager;
-
 	bool isInCouroutine = false;
 
     Text winText;
@@ -229,13 +227,13 @@ public class Game : MonoBehaviour
 		//List<Vector2> vector = new List<Vector2> {  ;
 		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
 
-		gameManager = FindObjectOfType<GameManager> ();
+		//gameManager = FindObjectOfType<GameManager> ();
 
-		if(gameManager.isFromFile){
+		//if(gameManager.isFromFile){
 			ParseGraph("ufo");
-		} else {
-			ParseGraph(triangulation);
-		}
+		//} else {
+		//	ParseGraph(triangulation);
+		//}
 
 		lastInput = noInput;
 
@@ -246,13 +244,13 @@ public class Game : MonoBehaviour
         SetupShipLines();
 
 
-		if (gameManager.isVsAI) {
+		/*if (gameManager.isVsAI) {
 			controllers[0] = ControllerType.HUMAN;
 			controllers[1] = ControllerType.AI;
 		} else {
 			controllers[0] = ControllerType.HUMAN;
 			controllers[1] = ControllerType.HUMAN;
-		}
+		}*/
 
         MarkActions();
 
