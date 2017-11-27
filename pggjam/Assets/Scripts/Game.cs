@@ -299,9 +299,10 @@ public class Game : MonoBehaviour
 
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
-            float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
-            float fracJourney = distCovered / journeyLength;
-            ships[currentShip].transform.position = Vector3.Lerp(startPos, destpos, fracJourney);
+            float distCovered = (Time.time - startTime) * ships[currentShip].Speed;// * Time.deltaTime;
+            float fracJourney = /*(ships[currentShip].transform.position - startPos).magnitude*/distCovered / journeyLength;
+            //Debug.Log(fracJourney);
+            ships[currentShip].transform.position = /*(destpos-startPos).normalized * Time.deltaTime * ships[currentShip].Speed;*/Vector3.Lerp(startPos, destpos, fracJourney);
             yield return null;
         }
         isInCouroutine = false;
