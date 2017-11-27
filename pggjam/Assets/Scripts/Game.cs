@@ -225,16 +225,7 @@ public class Game : MonoBehaviour
 
 	void Start()
 	{
-		//List<Vector2> vector = new List<Vector2> {  ;
-		Dictionary<Vector2, List<Vector2>> triangulation = GraphGenerator.Quickhull( GeneratePoints(1.0f, 10, 5, 100));
-
-		//gameManager = FindObjectOfType<GameManager> ();
-
-		//if(gameManager.isFromFile){
 		ParseGraph("ufo");
-		//} else {
-		//	ParseGraph(triangulation);
-		//}
 
 		Debug.Log(Model.Utilities.canBeProjected(new Vector2(111, -12), new Vector2(100,0), new Vector2(110, 0)));
 
@@ -248,13 +239,6 @@ public class Game : MonoBehaviour
 
         for(int i = 0; i < controllers.Length; ++i)
 			controllers[i] = GameManager.controllerTypes[i];
-		/*if (gameManager.isVsAI) {
-		controllers[0] = ControllerType.HUMAN;
-		controllers[1] = ControllerType.AI;
-		} else {
-			controllers[0] = ControllerType.HUMAN;
-			controllers[1] = ControllerType.HUMAN;
-		}*/
 
         MarkActions();
 
@@ -301,9 +285,8 @@ public class Game : MonoBehaviour
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed;// * Time.deltaTime;
-            float fracJourney = /*(ships[currentShip].transform.position - startPos).magnitude*/distCovered / journeyLength;
-            //Debug.Log(fracJourney);
-            ships[currentShip].transform.position = /*(destpos-startPos).normalized * Time.deltaTime * ships[currentShip].Speed;*/Vector3.Lerp(startPos, destpos, fracJourney);
+            float fracJourney = distCovered / journeyLength;
+            ships[currentShip].transform.position = Vector3.Lerp(startPos, destpos, fracJourney);
             yield return null;
         }
         isInCouroutine = false;
@@ -355,7 +338,7 @@ public class Game : MonoBehaviour
         if (isWon)
         {
             timePassed += Time.deltaTime;
-            if(timePassed >= 2.0f)
+            if(timePassed >= 5.0f)
             {
                 SceneManager.LoadScene(0);
             }
@@ -404,6 +387,11 @@ public class Game : MonoBehaviour
 			}
 			else
 			{
+				if(!winText.enabled)
+				{
+					Camera.main.gameObject.GetComponent<AudioSource>().Stop();
+					GetComponent<AudioSource>().Play();
+				}
 				Debug.Log("Game Over " + state.WhoWon());
                 if(state.WhoWon() == 1)
                 {
@@ -437,7 +425,6 @@ public class Game : MonoBehaviour
 			}
 			else if (currentShip == noInput)
 			{
-                //MoveSelection(true);
                 action = new Model.SelectShipAction(lastInput);
                 
             }
