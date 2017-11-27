@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733335"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 (unknown)"
+   sodipodi:docname="icon_human.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="156.48979"
+     inkscape:cy="138.35245"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:object-nodes="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-229.26665)">
+    <rect
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.26458332"
+       id="rect3699"
+       width="67.941216"
+       height="67.752235"
+       x="0"
+       y="229.24776" />
+    <rect
+       y="229.90921"
+       x="0.66145831"
+       height="66.334824"
+       width="66.519852"
+       id="rect4506"
+       style="fill:#000000;fill-opacity:1;stroke-width:0.2590481" />
+    <circle
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.53871828"
+       id="path4508"
+       cx="33.177303"
+       cy="246.75166"
+       r="11.928761" />
+    <path
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.53871828"
+       d="m 32.792502,255.98685 h -2e-6 c 0,0 9.545792,-0.1519 13.393779,10.23757 5.579582,18.27795 4.499365,21.89313 4.499365,21.89313 H 16.630953 c 0,0 0.264307,-11.02093 5.07429,-22.7573 2.308794,-9.23518 11.087259,-9.3734 11.087259,-9.3734 z"
+       id="rect4513"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
+    <circle
+       r="11.125562"
+       cy="246.70442"
+       cx="33.130058"
+       id="circle4520"
+       style="fill:#000000;fill-opacity:1;stroke-width:0.50244474" />
+    <path
+       sodipodi:nodetypes="ccccccc"
+       inkscape:connector-curvature="0"
+       id="path4522"
+       d="m 32.811474,256.79282 h -2e-6 c 0,0 9.222123,-0.14674 12.939635,9.89045 5.390394,17.6582 4.346804,21.1508 4.346804,21.1508 H 17.197917 c 0,0 0.255345,-10.64724 4.902236,-21.98566 2.230509,-8.92205 10.711321,-9.05559 10.711321,-9.05559 z"
+       style="fill:#000000;fill-opacity:1;stroke-width:0.5204519" />
+    <circle
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.26458332"
+       id="path4526"
+       cx="28.537201"
+       cy="243.04388"
+       r="1.8898809" />
+    <circle
+       r="1.8898809"
+       cy="242.94939"
+       cx="37.136158"
+       id="circle4528"
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.26458332" />
+    <path
+       style="fill:#ffff68;fill-opacity:1;stroke-width:0.26458332"
+       d="m 39.593007,251.21763 c -7e-6,0.33921 -3.840154,1.65364 -6.945313,1.65364 -3.105159,0 -6.189354,-1.21993 -6.18936,-1.55915 -4.4e-5,-0.33922 3.084165,0.33072 6.18936,0.33072 3.105195,0 6.945357,-0.76444 6.945313,-0.42521 z"
+       id="path4530"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cscsc" />
+  </g>
+</svg>
