@@ -4,22 +4,6 @@ using UnityEngine;
 
 namespace Model
 {
-	public struct ToRemove
-	{
-		public int index;
-		public Vector2 position;
-		public float projection;
-		public int player;
-
-		public ToRemove(int index, Vector2 position, int player, float projection)
-		{
-			this.index = index;
-			this.position = position;
-			this.projection = projection;
-			this.player = player;
-		}
-	}
-
 	public class MoveAction : Action
 	{
 		Vector2 source;
@@ -108,8 +92,6 @@ namespace Model
 
 		void TakeShipOver(Model.GameState state, int index, int currentPlayer, List<Vector2>[] ships)
 		{
-			//List<ToRemove> left = new List<ToRemove>();
-			//List<ToRemove> right = new List<ToRemove>();
 			List<float> ufo = new List<float>();
 			if (index > 0)
 			{
@@ -123,11 +105,6 @@ namespace Model
 						{
 							if (!positions.Contains(ships[i][j]))
 							{
-								//left.Add(new ToRemove(index, ships[i][j], i, Utilities.DotProduct(destination - ships[currentPlayer][index-1], ships[i][j] - ships[currentPlayer][index-1])));
-								//indexes.Add(index);
-								//positions.Add(ships[i][j]);
-								//players.Add(i);
-
 								int k = 0;
 								float value = 0;
 								for(int l = 0; l < ufo.Count; ++l)
@@ -145,7 +122,6 @@ namespace Model
 					}
 				}
 			}
-			//ufo.Clear();
 			if (index < ships[currentPlayer].Count - 1)
 			{
 				for (int i = 0; i < ships.Length; ++i)
@@ -158,11 +134,7 @@ namespace Model
 						{
 							if (!positions.Contains(ships[i][j]))
 							{
-								//left.Add(new ToRemove(index+1, ships[i][j], i, Utilities.DotProduct(ships[currentPlayer][index+1] - destination, ships[i][j] - destination)));
-								//indexes.Add(index + 1);
-								//positions.Add(ships[i][j]);
-								//players.Add(i);
-														int k = 0;
+								int k = 0;
 								float value = 0;
 								for(int l = 0; l < ufo.Count; ++l)
 								{
@@ -179,27 +151,6 @@ namespace Model
 					}
 				}
 			}
-
-			//left.Sort((x,y) => x.projection.CompareTo(y.projection));
-			//right.Sort((x,y) => x.projection.CompareTo(y.projection));
-			/*indexes.Clear();
-			positions.Clear();
-			players.Clear();
-			foreach(ToRemove i in left)
-			{
-				//Debug.Log(i.position + " " + i.projection);
-				indexes.Add(i.index);
-				positions.Add(i.position);
-				players.Add(i.player);
-			}
-			foreach(ToRemove i in right)
-			{
-				//Debug.Log(i.position + " " + i.projection);
-				indexes.Add(i.index);
-				positions.Add(i.position);
-				players.Add(i.player);
-			}
-			left.Clear();*/
 		}
 	}
 }
