@@ -19,14 +19,37 @@ namespace Model
 			return number / Mathf.Abs(number); 
 		}
 
-		public static bool isPointInTriangle(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 point)
+		public static bool isPointInTriangle(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 point, float threshold = 0.5f)
 		{
 			List<float> results = new List<float>();
-			results.Add(Signum(DistanceFromLine(p0, p1, point)));
-			results.Add(Signum(DistanceFromLine(p1, p2, point)));
-			results.Add(Signum(DistanceFromLine(p2, p0, point)));
+			results.Add((DistanceFromLine(p0, p1, point)));
+			results.Add((DistanceFromLine(p1, p2, point)));
+			results.Add((DistanceFromLine(p2, p0, point)));
 
-				return (results[0] == results[1] && results[0] == results[2]);
+			bool result = false;
+			result = result || ((canBeProjected(point, p0, p1) && Mathf.Abs(results[0]) < threshold));
+			result = result || ((canBeProjected(point, p1, p0) && Mathf.Abs(results[0]) < threshold));
+
+			result = result || ((canBeProjected(point, p1, p2) && Mathf.Abs(results[1]) < threshold));
+			result = result || ((canBeProjected(point, p2, p1) && Mathf.Abs(results[1]) < threshold));
+
+			result = result || ((canBeProjected(point, p2, p0) && Mathf.Abs(results[2]) < threshold));
+			result = result || ((canBeProjected(point, p0, p2) && Mathf.Abs(results[2]) < threshold));
+
+			for(int i = 0; i < results.Count; ++i)
+			{
+				results[i] = Signum(results[i]);
+			}
+
+			return result || (results[0] == results[1] && results[0] == results[2]);
+		}
+
+		public static bool canBeProjected(Vector2 point, Vector2 begin, Vector2 end)
+		{
+			Vector2 Q = end-begin;
+			Vector2 P = point - begin;
+			Vector2 projection = (Q).normalized * (DotProduct((P), (Q)) / (Q).magnitude);
+			return projection.x >= 0 && projection.x <= Q.x && projection.y >= 0 && projection.y <= Q.y;
 		}
 
 		public static float angleBetweenVectors(Vector2 first, Vector2 second)
@@ -44,6 +67,10 @@ namespace Model
 			return (first.x - origin.x)  * (second.y - origin.y)  -  (first.y - origin.y) * (second.x - origin.x);
 		}
 
+		public static float DotProduct(Vector2 first, Vector2 second)
+		{
+			return first.x * second.x + first.y * second.y;
+		}
 
 	}
 }

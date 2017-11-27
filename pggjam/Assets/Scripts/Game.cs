@@ -235,6 +235,8 @@ public class Game : MonoBehaviour
 		//	ParseGraph(triangulation);
 		//}
 
+		Debug.Log(Model.Utilities.canBeProjected(new Vector2(111, -12), new Vector2(100,0), new Vector2(110, 0)));
+
 		lastInput = noInput;
 
 		state = CreateState();
@@ -293,7 +295,7 @@ public class Game : MonoBehaviour
     	isInCouroutine = true;
         float angle = Model.Utilities.angleBetweenVectors(ships[currentShip].transform.up,(destpos - startPos));
         ships[currentShip].transform.Rotate(new Vector3(0,0,-1), angle);
-        Debug.Log(angle);
+
         while ((ships[currentShip].transform.position - destpos).magnitude > 0.01)
         {
             float distCovered = (Time.time - startTime) * ships[currentShip].Speed * Time.deltaTime;
