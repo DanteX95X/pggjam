@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ChoosePlayerButton : MonoBehaviour 
 {
 	[SerializeField]
-	Sprite[] sprite = null;
+	Sprite[] sprites = null;
 
 	[SerializeField]
-	int index;
+	int spriteIndex = 0;
+
+	[SerializeField]
+	int playerIndex = -1;
 
 	void Start () 
 	{
-		GetComponent<Image>().sprite = sprite[index];// = texture;
+		GetComponent<Image>().sprite = sprites[spriteIndex];// = texture;
 	}
 
 	void Update () 
@@ -23,7 +27,18 @@ public class ChoosePlayerButton : MonoBehaviour
 
 	public void ChangeSprite()
 	{
-		index = (index+1) % sprite.Length;
-		GetComponent<Image>().sprite = sprite[index];
+		spriteIndex = (spriteIndex+1) % sprites.Length;
+		GetComponent<Image>().sprite = sprites[spriteIndex];
+		GameManager.controllerTypes[playerIndex] = (Game.ControllerType)spriteIndex;
+	}
+
+	public void Play()
+	{
+		SceneManager.LoadScene("game");
+	}
+
+	public void Menu()
+	{
+		SceneManager.LoadScene("menuScene");
 	}
 }

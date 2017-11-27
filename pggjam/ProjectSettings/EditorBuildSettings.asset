@@ -9,14 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/menuScene.unity
     guid: 2cf1b6310cdff55478bc858a3081000b
   - enabled: 1
-    path: Assets/Scenes/settings.unity
-    guid: c265a36de96472f44b795741c412ce85
+    path: Assets/Scenes/menu.unity
+    guid: f747ecb4f67fc4ca0bb93e2c39691f30
   - enabled: 1
-    path: Assets/Scenes/scene.unity
-    guid: 42409017ca7bf48bc8b4eee48b174a11
-  - enabled: 1
-    path: Assets/Scenes/szymonTest.unity
+    path: Assets/Scenes/game.unity
     guid: 5f6c24b058d4fde4bb2d48810c549342
-  - enabled: 1
-    path: Assets/Scenes/chooseMode.unity
-    guid: 578681444d0f447e3a671f2dc11fa081

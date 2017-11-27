@@ -75,11 +75,11 @@ public class Game : MonoBehaviour
 		set{ lastInput = value;}
 	}
 
-	enum ControllerType
+	public enum ControllerType
 	{
-		HUMAN,
-		AI,
+		HUMAN = 0,
 		RANDOM,
+		AI,
 	}
 
 	[SerializeField]
@@ -231,7 +231,7 @@ public class Game : MonoBehaviour
 		//gameManager = FindObjectOfType<GameManager> ();
 
 		//if(gameManager.isFromFile){
-			ParseGraph("ufo");
+		ParseGraph("ufo");
 		//} else {
 		//	ParseGraph(triangulation);
 		//}
@@ -246,10 +246,11 @@ public class Game : MonoBehaviour
 
         SetupShipLines();
 
-
+        for(int i = 0; i < controllers.Length; ++i)
+			controllers[i] = GameManager.controllerTypes[i];
 		/*if (gameManager.isVsAI) {
-			controllers[0] = ControllerType.HUMAN;
-			controllers[1] = ControllerType.AI;
+		controllers[0] = ControllerType.HUMAN;
+		controllers[1] = ControllerType.AI;
 		} else {
 			controllers[0] = ControllerType.HUMAN;
 			controllers[1] = ControllerType.HUMAN;
