@@ -108,9 +108,9 @@ namespace Model
 
 		void TakeShipOver(Model.GameState state, int index, int currentPlayer, List<Vector2>[] ships)
 		{
-			List<ToRemove> left = new List<ToRemove>();
-			List<ToRemove> right = new List<ToRemove>();
-
+			//List<ToRemove> left = new List<ToRemove>();
+			//List<ToRemove> right = new List<ToRemove>();
+			List<float> ufo = new List<float>();
 			if (index > 0)
 			{
 				for (int i = 0; i < ships.Length; ++i)
@@ -124,14 +124,28 @@ namespace Model
 							if (!positions.Contains(ships[i][j]))
 							{
 								//left.Add(new ToRemove(index, ships[i][j], i, Utilities.DotProduct(destination - ships[currentPlayer][index-1], ships[i][j] - ships[currentPlayer][index-1])));
-								indexes.Add(index);
-								positions.Add(ships[i][j]);
-								players.Add(i);
+								//indexes.Add(index);
+								//positions.Add(ships[i][j]);
+								//players.Add(i);
+
+								int k = 0;
+								float value = 0;
+								for(int l = 0; l < ufo.Count; ++l)
+								{
+									value = Utilities.DotProduct(destination - ships[currentPlayer][index-1], ships[i][j] - ships[currentPlayer][index-1]);
+									if(ufo[l] > value)
+										k = l;
+								}
+								ufo.Insert(k, value);
+								indexes.Insert(k, index);
+								positions.Insert(k, ships[i][j]);
+								players.Insert(k, i);
 							}
 						}
 					}
 				}
 			}
+			//ufo.Clear();
 			if (index < ships[currentPlayer].Count - 1)
 			{
 				for (int i = 0; i < ships.Length; ++i)
@@ -145,9 +159,21 @@ namespace Model
 							if (!positions.Contains(ships[i][j]))
 							{
 								//left.Add(new ToRemove(index+1, ships[i][j], i, Utilities.DotProduct(ships[currentPlayer][index+1] - destination, ships[i][j] - destination)));
-								indexes.Add(index + 1);
-								positions.Add(ships[i][j]);
-								players.Add(i);
+								//indexes.Add(index + 1);
+								//positions.Add(ships[i][j]);
+								//players.Add(i);
+														int k = 0;
+								float value = 0;
+								for(int l = 0; l < ufo.Count; ++l)
+								{
+									value = Utilities.DotProduct(ships[currentPlayer][index+1] - destination, ships[i][j] - destination);
+									if(ufo[l] > value)
+										k = l;
+								}
+								ufo.Insert(k, value);
+								indexes.Insert(k, index+1);
+								positions.Insert(k, ships[i][j]);
+								players.Insert(k, i);
 							}
 						}
 					}

@@ -875,7 +875,7 @@ MonoBehaviour:
   - {fileID: 1101813516}
   selectionSound: {fileID: 8300000, guid: ad12c80194eb74f26a3ce58ff96cf801, type: 3}
   currentShip: {x: 2.1474836e+9, y: 2.1474836e+9}
-  controllers: 0100000001000000
+  controllers: 0200000001000000
 --- !u!82 &1545708550
 AudioSource:
   m_ObjectHideFlags: 0
