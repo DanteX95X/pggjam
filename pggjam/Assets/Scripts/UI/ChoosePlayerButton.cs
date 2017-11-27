@@ -17,7 +17,9 @@ public class ChoosePlayerButton : MonoBehaviour
 
 	void Start () 
 	{
-		GetComponent<Image>().sprite = sprites[spriteIndex];// = texture;
+		GetComponent<Image>().sprite = sprites[spriteIndex];
+		if(playerIndex != -1)
+			GameManager.controllerTypes[playerIndex] = (Game.ControllerType)spriteIndex;
 	}
 
 	void Update () 
@@ -39,6 +41,16 @@ public class ChoosePlayerButton : MonoBehaviour
 
 	public void Menu()
 	{
-		SceneManager.LoadScene("menuScene");
+		SceneManager.LoadScene("mainMenu");
+	}
+
+	public void ChooseMode()
+	{
+		SceneManager.LoadScene("chooseMode");
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 }
