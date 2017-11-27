@@ -1007,7 +1007,7 @@ MonoBehaviour:
   vesselPrefabs:
   - {fileID: 1747722607427304, guid: da58410bad341334da8150d12f46b6fd, type: 2}
   - {fileID: 1605154294354236, guid: bda5f96ec83961e41a05ddff5f16c016, type: 2}
-  - {fileID: 1747722607427304, guid: da58410bad341334da8150d12f46b6fd, type: 2}
+  - {fileID: 1086054275124140, guid: 5eed0321ee5f54f6e9d5fdc255a3217e, type: 2}
   lines:
   - {fileID: 1150589743}
   - {fileID: 1101813516}
