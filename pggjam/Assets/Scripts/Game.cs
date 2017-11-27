@@ -81,7 +81,8 @@ public class Game : MonoBehaviour
 		AI,
 		RANDOM,
 	}
-		
+
+	[SerializeField]
 	ControllerType[] controllers = new ControllerType[2];
 
 

@@ -69,6 +69,7 @@ namespace Model
 
 		public static float DotProduct(Vector2 first, Vector2 second)
 		{
+			//Debug.Log(first + " " + second);
 			return first.x * second.x + first.y * second.y;
 		}
 
